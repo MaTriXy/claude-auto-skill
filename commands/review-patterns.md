@@ -61,13 +61,51 @@ If `action=preview` with a pattern-id:
 If `action=approve` with a pattern-id:
 
 1. Load the specific pattern
-2. Generate the skill candidate
-3. **Ask the user** if they want to:
+2. Generate the skill candidate using:
+   ```python
+   from core.skill_generator import SkillGenerator
+   generator = SkillGenerator()
+   candidate = generator.generate_candidate(pattern)
+   ```
+
+3. **Show the auto-detected execution context**:
+   - `context: fork` - Whether skill runs in isolated subagent
+   - `agent` - Which agent type (Explore, Plan, general-purpose)
+   - `allowed-tools` - Which tools are permitted
+
+4. **Ask the user** if they want to customize:
    - Use the auto-generated name or provide a custom name
    - Use the auto-generated description or customize it
+   - **Execution context**: Run inline or in isolation (fork)
+   - **Agent type**: If fork, which agent (Explore, Plan, general-purpose)
+   - **Tool restrictions**: Use detected tools only, or allow all tools
    - Add any additional notes or steps
-4. Save the skill to `~/.claude/skills/auto/<skill-name>/SKILL.md`
-5. Confirm creation and show the path
+
+5. Save the skill to `~/.claude/skills/auto/<skill-name>/SKILL.md`
+6. Confirm creation and show the path
+7. **Inject the skill into the current session** by running:
+   ```bash
+   python scripts/get_skill.py "<skill-name>"
+   ```
+   Display the output directly - this makes the skill immediately active without requiring a session restart. The delimited format signals these are instructions to follow.
+
+### Execution Context Options
+
+When presenting the skill candidate, explain:
+
+- **Inline (default for read-only patterns)**: Skill runs in current conversation context. Good for reference material and guidelines.
+
+- **Fork (default for patterns with Bash/Task)**: Skill runs in isolated subagent. Good for:
+  - Tasks with side effects (deployments, builds)
+  - Workflows that shouldn't pollute conversation history
+  - Long-running operations
+
+- **Agent types** (when fork is enabled):
+  - `Explore`: Read-only tools, optimized for codebase exploration
+  - `Plan`: Planning and design, no execution
+  - `general-purpose`: Full tool access (default)
+
+- **Allowed tools**: Restricts Claude to only use specific tools when the skill is active. Prevents scope creep.
 
 ### Reject Pattern
 

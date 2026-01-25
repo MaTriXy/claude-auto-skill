@@ -1,18 +1,25 @@
 ---
 name: auto-skill-guide
-description: Documentation for the Claude Auto-Skill plugin - automatic workflow pattern detection and skill generation
+description: Documentation for the Claude Auto-Skill plugin - automatic workflow pattern detection, skill generation, and dynamic loading
 ---
 
 # Claude Auto-Skill Plugin
 
-This plugin automatically detects workflow patterns from your Claude Code sessions and generates reusable skills.
+This plugin automatically detects workflow patterns from your Claude Code sessions, generates reusable skills, and can load them dynamically mid-session.
 
 ## How It Works
 
-1. **Observation**: Every tool call is recorded (via PostToolUse hook)
-2. **Detection**: When a session ends, patterns are analyzed for repetition
-3. **Suggestion**: High-confidence patterns are suggested for skill creation
-4. **Generation**: Approved patterns become SKILL.md files
+```
+Session 1: Grep → Read → Edit    ─┐
+Session 2: Grep → Read → Edit     ├──▶ Pattern Detected → SKILL.md
+Session 3: Grep → Read → Edit    ─┘
+```
+
+1. **Observation**: Every tool call is recorded via PostToolUse hook
+2. **Detection**: Patterns are analyzed for repetition (3+ occurrences)
+3. **Generation**: Approved patterns become SKILL.md files with proper frontmatter
+4. **Discovery**: Claude proactively offers relevant skills for your tasks
+5. **Loading**: Skills can be loaded mid-session without restart
 
 ## Commands
 
@@ -26,6 +33,17 @@ Review and approve detected patterns:
 /auto-skill:review approve ID   # Generate skill from pattern
 /auto-skill:review reject ID    # Dismiss a pattern
 ```
+
+### /auto-skill:load
+
+Load a generated skill into the current session:
+
+```
+/auto-skill:load                # List available skills
+/auto-skill:load <name>         # Load specific skill immediately
+```
+
+Skills loaded this way become active immediately without requiring a session restart.
 
 ### /auto-skill:status
 
@@ -44,19 +62,89 @@ Patterns are detected when:
 
 ### Confidence Scoring
 
-Confidence is calculated from:
-- **Occurrence count** (40%): More occurrences = higher confidence
-- **Sequence length** (20%): 3-5 tools is ideal
-- **Success rate** (25%): Successful patterns score higher
-- **Recency** (15%): Recent patterns are prioritized
+| Factor | Weight | Description |
+|--------|--------|-------------|
+| Occurrences | 40% | More occurrences = higher confidence |
+| Length | 20% | 3-5 tools is ideal |
+| Success Rate | 25% | Successful patterns score higher |
+| Recency | 15% | Recent patterns are prioritized |
 
 ### Example Patterns
 
 ```
-Grep -> Read -> Edit        # Search, read context, make changes
-Glob -> Read -> Write       # Find files, read, create new file
-Read -> Edit -> Bash        # Read file, edit, run tests
+Grep → Read → Edit        # Search, read context, make changes
+Glob → Read → Write       # Find files, read, create new file
+Read → Edit → Bash        # Read file, edit, run tests
 ```
+
+## Dynamic Skill Loading
+
+Unlike standard Claude Code skills (loaded at session start), auto-generated skills can be loaded **mid-session** using a registry system.
+
+### How It Works
+
+1. A lightweight registry indexes all skills (~metadata only)
+2. Scripts retrieve and format skill content on demand
+3. Output uses clear delimiters that signal active instructions:
+
+```
+======================================================================
+SKILL LOADED: <name>
+Confidence: <score>
+Allowed tools: <tools>
+======================================================================
+
+<skill instructions>
+
+======================================================================
+END OF SKILL - INSTRUCTIONS ARE NOW ACTIVE
+======================================================================
+```
+
+### Proactive Discovery
+
+Claude can automatically discover relevant skills using the `skill-discovery` skill:
+
+1. User requests a multi-step task
+2. Claude searches for matching skills
+3. If found, Claude asks: "Would you like me to load this skill?"
+4. User approves → skill is loaded and followed
+
+### Scripts
+
+```bash
+python scripts/list_skills.py           # List all skills
+python scripts/search_skills.py "query" # Find by intent
+python scripts/get_skill.py <name>      # Load specific skill
+python scripts/discover_skill.py "task" # Discover + offer to load
+python scripts/skill_registry.py --rebuild  # Refresh registry
+```
+
+## Execution Contexts
+
+Generated skills automatically get appropriate execution settings:
+
+| Pattern Type | Context | Agent | Why |
+|-------------|---------|-------|-----|
+| `Grep → Read` | Inline | Explore | Read-only, safe |
+| `Read → Edit → Bash` | Fork | general-purpose | Has side effects |
+
+**Inline**: Runs in current conversation context.
+
+**Fork** (`context: fork`): Runs in isolated subagent. Use for:
+- Tasks with side effects (deployments, builds)
+- Workflows that shouldn't pollute conversation history
+- Long-running operations
+
+### Tool Restrictions
+
+Generated skills include `allowed-tools` based on the pattern:
+
+```yaml
+allowed-tools: Grep, Read, Edit
+```
+
+This prevents scope creep and ensures predictable behavior.
 
 ## Generated Skills
 
@@ -68,6 +156,8 @@ Auto-generated skills are saved to:
 Each skill includes:
 - YAML frontmatter with metadata
 - `auto-generated: true` flag
+- `context: fork` if appropriate
+- `allowed-tools` restrictions
 - Confidence score and source sessions
 - Procedural steps derived from the pattern
 
@@ -76,23 +166,23 @@ Each skill includes:
 Detection thresholds (in `~/.claude/auto-skill.local.md`):
 
 ```yaml
-min_occurrences: 3      # Minimum pattern repetitions
-min_sequence_length: 2  # Shortest pattern
-max_sequence_length: 10 # Longest pattern
-lookback_days: 7        # Analysis window
+---
+detection:
+  min_occurrences: 3      # Minimum pattern repetitions
+  min_sequence_length: 2  # Shortest pattern
+  max_sequence_length: 10 # Longest pattern
+  lookback_days: 7        # Analysis window
+  min_confidence: 0.7     # Suggestion threshold
+---
 ```
 
 ## Data Storage
 
-Events are stored in SQLite:
-```
-~/.claude/auto-skill/events.db
-```
-
-This database contains:
-- Tool call events (name, input, response)
-- Session and project metadata
-- Timestamps for each event
+| Data | Location |
+|------|----------|
+| Events | `~/.claude/auto-skill/events.db` |
+| Skills | `~/.claude/skills/auto/` |
+| Registry | `references/registry.json` |
 
 ## Privacy
 
@@ -106,6 +196,10 @@ This database contains:
 - Need 3+ occurrences of the same sequence
 - Check the lookback period (default: 7 days)
 - Run `/auto-skill:status` to see event counts
+
+**Skill not loading?**
+- Run `python scripts/skill_registry.py --rebuild`
+- Check the skill exists in `~/.claude/skills/auto/`
 
 **Hooks not working?**
 - Verify plugin is installed correctly
