@@ -1,0 +1,15 @@
+{
+  "name": "auto-skill",
+  "version": "0.1.0",
+  "description": "Automatically detects workflow patterns and generates Claude Code skills",
+  "author": "Claude Auto-Skill",
+  "homepage": "https://github.com/anthropics/claude-auto-skill",
+  "hooks": "hooks/hooks.json",
+  "commands": [
+    "commands/review-patterns.md",
+    "commands/status.md"
+  ],
+  "skills": [
+    "skills/SKILL.md"
+  ]
+}

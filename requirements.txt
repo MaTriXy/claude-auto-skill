@@ -1,0 +1,6 @@
+# Core dependencies (standard library only for minimal footprint)
+# pyyaml is the only external dependency for YAML parsing
+PyYAML>=6.0
+
+# Development dependencies
+pytest>=7.0
