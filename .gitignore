@@ -24,31 +24,26 @@ wheels/
 venv/
 ENV/
 env/
-.venv/
+.venv
 
 # IDE
-.idea/
 .vscode/
+.idea/
 *.swp
 *.swo
 *~
-
-# Testing
-.pytest_cache/
-.coverage
-htmlcov/
-.tox/
-.nox/
-
-# Local development
-*.local.md
-*.db
 
 # OS
 .DS_Store
 Thumbs.db
 
-Video/
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
 
-# Planning docs (internal)
-auto-skill-plan.md
+# Claude Auto-Skill specific
+*.db
+*.db-journal
+.claude/
+planning/

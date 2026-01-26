@@ -1,19 +1,25 @@
-"""
-Claude Auto-Skill Core
+"""Claude Auto-Skill Core Modules."""
 
-Automatically detects workflow patterns and generates Claude Code skills.
-"""
-
-__version__ = "0.1.0"
-
-from .event_store import EventStore
-from .pattern_detector import PatternDetector
-from .sequence_matcher import SequenceMatcher
-from .skill_generator import SkillGenerator
+from .event_store import EventStore, ToolEvent
+from .pattern_detector import PatternDetector, DetectedPattern
+from .skill_generator import SkillGenerator, SkillCandidate
+from .session_analyzer import SessionAnalyzer, SessionContext, ProblemSolvingPattern
+from .lsp_analyzer import LSPAnalyzer, CodeStructure, CodeSymbol
+from .design_pattern_detector import DesignPatternDetector, DesignPattern
 
 __all__ = [
     "EventStore",
+    "ToolEvent",
     "PatternDetector",
-    "SequenceMatcher",
+    "DetectedPattern",
     "SkillGenerator",
+    "SkillCandidate",
+    "SessionAnalyzer",
+    "SessionContext",
+    "ProblemSolvingPattern",
+    "LSPAnalyzer",
+    "CodeStructure",
+    "CodeSymbol",
+    "DesignPatternDetector",
+    "DesignPattern",
 ]
