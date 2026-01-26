@@ -81,15 +81,15 @@ class SessionAnalyzer:
             "tool_sequence": ["Write", "Bash", "Edit", "Bash"],
             "keywords": ["test", "TDD", "red-green-refactor"],
         },
-        "debug-cycle": {
+        "Debug-Systematic": {
             "tool_sequence": ["Read", "Grep", "Bash", "Edit"],
             "keywords": ["error", "bug", "debug", "fix"],
         },
-        "refactor-safe": {
+        "Refactor-Safe": {
             "tool_sequence": ["Read", "Edit", "Bash"],
             "keywords": ["refactor", "improve", "clean"],
         },
-        "explore-then-implement": {
+        "Explore-Then-Implement": {
             "tool_sequence": ["Grep", "Read", "Write"],
             "keywords": ["understand", "then", "create"],
         },

@@ -169,6 +169,8 @@ class LSPAnalyzer:
             if isinstance(node, ast.ClassDef):
                 symbol = self._create_class_symbol(node, file_path)
                 symbols.append(symbol)
+                # Also add methods to top-level symbols list for find_symbols_by_type("method")
+                symbols.extend(symbol.children)
 
             elif isinstance(node, ast.FunctionDef) or isinstance(node, ast.AsyncFunctionDef):
                 # Only top-level functions (not methods)
