@@ -135,7 +135,7 @@ Claude Auto-Skill observes your Claude Code sessions, detects repeated patterns,
 
 **ROI**: Save ~25 hours per 100 skills vs manual creation
 
-## 🎬 Screenshots
+<!-- ## 🎬 Screenshots
 
 ### Web UI Dashboard
 ![Dashboard](assets/screenshots/dashboard.png)
@@ -145,6 +145,7 @@ Claude Auto-Skill observes your Claude Code sessions, detects repeated patterns,
 
 ### Graduation Candidates
 ![Graduation](assets/screenshots/graduation.png)
+-->
 
 ## 🌟 Why Choose Claude Auto-Skill?
 

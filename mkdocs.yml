@@ -48,7 +48,7 @@ theme:
   
   icon:
     repo: fontawesome/brands/github
-    logo: material/otter
+    logo: material/brain
 
 extra:
   social:

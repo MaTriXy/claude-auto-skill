@@ -2,7 +2,7 @@
 
 Beautiful visual interface for managing skills, tracking adoption, and one-click operations.
 
-![Web UI Dashboard](../assets/screenshots/dashboard.png)
+<!-- ![Web UI Dashboard](../assets/screenshots/dashboard.png) -->
 
 ---
 
@@ -80,7 +80,7 @@ python app.py
 
 ## Dashboard Tab
 
-![Dashboard](../assets/screenshots/dashboard.png)
+<!-- ![Dashboard](../assets/screenshots/dashboard.png) -->
 
 ### Overview Stats
 
@@ -122,7 +122,7 @@ python app.py
 
 ## Graduation Tab
 
-![Graduation Tab](../assets/screenshots/graduation.png)
+<!-- ![Graduation Tab](../assets/screenshots/graduation.png) -->
 
 ### Candidate Detection
 
@@ -159,7 +159,7 @@ Success Rate: ≥ 80%
 
 ## Publishing Tab
 
-![Publishing Tab](../assets/screenshots/publishing.png)
+<!-- ![Publishing Tab](../assets/screenshots/publishing.png) -->
 
 ### Publishable Detection
 
