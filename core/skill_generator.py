@@ -353,6 +353,50 @@ class SkillGenerator:
                 seen.add(tool)
                 unique.append(tool)
         return unique
+    
+    def _generate_tags(self, pattern: DetectedPattern) -> list[str]:
+        """
+        Generate tags for Vercel skills.sh compatibility (Phase 3).
+        
+        Tags help with skill discovery and categorization.
+        """
+        tags = []
+        
+        # Add tool-based tags
+        for tool in pattern.tool_sequence:
+            tool_tag = tool.lower().replace("_", "-")
+            if tool_tag not in tags:
+                tags.append(tool_tag)
+        
+        # Add intent-based tags from session context
+        if hasattr(pattern, 'session_context') and pattern.session_context:
+            if pattern.session_context.get("primary_intent"):
+                intent = pattern.session_context["primary_intent"]
+                tags.append(intent)
+            
+            # Add workflow type as tag
+            if pattern.session_context.get("workflow_type"):
+                workflow = pattern.session_context["workflow_type"].lower().replace("_", "-")
+                if workflow not in tags:
+                    tags.append(workflow)
+        
+        # Add Mental domain tags
+        if hasattr(pattern, 'mental_context') and pattern.mental_context:
+            domains = pattern.mental_context.get("domains", [])
+            for domain in domains[:3]:  # Limit to top 3 domains
+                domain_tag = domain["name"].lower().replace(" ", "-")
+                if domain_tag not in tags:
+                    tags.append(domain_tag)
+        
+        # Add design pattern tags
+        if hasattr(pattern, 'design_patterns') and pattern.design_patterns:
+            for dp in pattern.design_patterns[:2]:  # Limit to top 2 patterns
+                pattern_tag = dp["name"].lower().replace(" ", "-")
+                if pattern_tag not in tags:
+                    tags.append(pattern_tag)
+        
+        # Limit total tags to 10 for readability
+        return tags[:10]
 
     def _generate_skill_name(self, pattern: DetectedPattern) -> str:
         """Generate kebab-case skill name."""
@@ -444,6 +488,21 @@ class SkillGenerator:
                 "type": pattern.problem_solving_approach.get("type"),
                 "description": pattern.problem_solving_approach.get("description"),
             }
+        
+        # Hybrid Phase 3: Mental context and Vercel metadata
+        if hasattr(pattern, 'mental_context') and pattern.mental_context:
+            fm["mental-context"] = {
+                "domains": [d["name"] for d in pattern.mental_context.get("domains", [])],
+                "capabilities": [c["name"] for c in pattern.mental_context.get("capabilities", [])],
+                "aspects": [a["name"] for a in pattern.mental_context.get("aspects", [])]
+                if pattern.mental_context.get("aspects") else [],
+            }
+        
+        # Vercel skills.sh compatibility metadata
+        fm["compatible-agents"] = ["claude-code", "opencode", "codex"]
+        fm["tags"] = self._generate_tags(pattern)
+        fm["source"] = "auto-generated"
+        fm["derived-from"] = "local-patterns"
 
         return fm
 

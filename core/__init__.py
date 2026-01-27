@@ -7,6 +7,12 @@ from .session_analyzer import SessionAnalyzer, SessionContext, ProblemSolvingPat
 from .lsp_analyzer import LSPAnalyzer, CodeStructure, CodeSymbol
 from .design_pattern_detector import DesignPatternDetector, DesignPattern
 
+# Hybrid integration (Phase 1 & 2)
+from .mental_analyzer import MentalAnalyzer, MentalModel, MentalDomain, MentalCapability, MentalAspect, MentalDecision
+from .skillssh_client import SkillsShClient, ExternalSkill
+from .skill_tracker import SkillTracker, SkillAdoption
+from .unified_suggester import UnifiedSuggester, SkillSuggestion
+
 __all__ = [
     "EventStore",
     "ToolEvent",
@@ -22,4 +28,17 @@ __all__ = [
     "CodeSymbol",
     "DesignPatternDetector",
     "DesignPattern",
+    # Hybrid integration
+    "MentalAnalyzer",
+    "MentalModel",
+    "MentalDomain",
+    "MentalCapability",
+    "MentalAspect",
+    "MentalDecision",
+    "SkillsShClient",
+    "ExternalSkill",
+    "SkillTracker",
+    "SkillAdoption",
+    "UnifiedSuggester",
+    "SkillSuggestion",
 ]

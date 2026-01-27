@@ -1,0 +1,125 @@
+site_name: Claude Auto-Skill
+site_description: Automatically learn from your workflows and turn them into intelligent, context-aware skills
+site_author: MaTriXy
+site_url: https://MaTriXy.github.io/claude-auto-skill
+
+repo_name: MaTriXy/claude-auto-skill
+repo_url: https://github.com/MaTriXy/claude-auto-skill
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: purple
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: purple
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  
+  font:
+    text: Roboto
+    code: Roboto Mono
+  
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+  
+  icon:
+    repo: fontawesome/brands/github
+    logo: material/otter
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/MaTriXy
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/MaTriXy
+  
+  analytics:
+    provider: google
+    property: G-XXXXXXXXXX  # Replace with your GA4 property
+
+plugins:
+  - search
+  - tags
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - def_list
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - tables
+  - footnotes
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quick-start.md
+    - Configuration: getting-started/configuration.md
+  - Features:
+    - Overview: features/overview.md
+    - Pattern Detection: features/pattern-detection.md
+    - Session Analysis: features/session-analysis.md
+    - Mental Model Integration: features/mental-model.md
+    - External Discovery: features/external-discovery.md
+    - Graduation System: features/graduation.md
+    - Publishing: features/publishing.md
+    - Web UI: features/web-ui.md
+  - User Guide:
+    - CLI Commands: guide/cli-commands.md
+    - Workflows: guide/workflows.md
+    - Best Practices: guide/best-practices.md
+  - Reference:
+    - Architecture: reference/architecture.md
+    - API Reference: reference/api.md
+    - Configuration Options: reference/config.md
+  - FAQ: faq.md
+  - Changelog: changelog.md
+  - Contributing: contributing.md
+
+copyright: Copyright &copy; 2026 MaTriXy

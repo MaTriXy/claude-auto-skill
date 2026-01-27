@@ -33,6 +33,14 @@ try:
 except ImportError:
     V2_AVAILABLE = False
 
+# Hybrid imports (Phase 3)
+try:
+    from .mental_analyzer import MentalAnalyzer, MentalModel
+
+    MENTAL_AVAILABLE = True
+except ImportError:
+    MENTAL_AVAILABLE = False
+
 
 @dataclass
 class DetectedPattern:
@@ -55,6 +63,9 @@ class DetectedPattern:
     code_context: Optional[dict] = None  # From LSPAnalyzer
     design_patterns: list[dict] = field(default_factory=list)  # From DesignPatternDetector
     problem_solving_approach: Optional[dict] = None  # Workflow strategy
+    
+    # Hybrid enhancements (Phase 3)
+    mental_context: Optional[dict] = None  # From MentalAnalyzer
 
     def to_dict(self) -> dict:
         """Convert to dictionary with v1 + v2 data."""
@@ -80,6 +91,8 @@ class DetectedPattern:
             base["design_patterns"] = self.design_patterns
         if self.problem_solving_approach:
             base["problem_solving_approach"] = self.problem_solving_approach
+        if self.mental_context:
+            base["mental_context"] = self.mental_context
 
         return base
 
@@ -103,6 +116,7 @@ class PatternDetector:
         self,
         store: EventStore,
         enable_v2: bool = True,
+        enable_mental: bool = True,
         project_path: Optional[Path] = None,
     ):
         """
@@ -111,16 +125,21 @@ class PatternDetector:
         Args:
             store: EventStore instance
             enable_v2: Enable v2 enhancements (session analysis, LSP, design patterns)
-            project_path: Optional project path for LSP analysis
+            enable_mental: Enable Mental model integration (hybrid Phase 3)
+            project_path: Optional project path for LSP analysis and Mental model
         """
         self.store = store
         self.enable_v2 = enable_v2 and V2_AVAILABLE
+        self.enable_mental = enable_mental and MENTAL_AVAILABLE
         self.project_path = project_path
 
         # V2 analyzers (initialized on demand)
         self._session_analyzer = None
         self._lsp_analyzer = None
         self._design_pattern_detector = None
+        
+        # Hybrid analyzer (initialized on demand)
+        self._mental_analyzer = None
 
     @property
     def session_analyzer(self) -> Optional["SessionAnalyzer"]:
@@ -142,6 +161,13 @@ class PatternDetector:
         if self.enable_v2 and self._design_pattern_detector is None and V2_AVAILABLE:
             self._design_pattern_detector = DesignPatternDetector(self.lsp_analyzer)
         return self._design_pattern_detector
+    
+    @property
+    def mental_analyzer(self) -> Optional["MentalAnalyzer"]:
+        """Lazy-load Mental analyzer."""
+        if self.enable_mental and self._mental_analyzer is None and MENTAL_AVAILABLE:
+            self._mental_analyzer = MentalAnalyzer(self.project_path)
+        return self._mental_analyzer
 
     def detect_patterns(
         self,
@@ -270,6 +296,10 @@ class PatternDetector:
         # V2: Add enhanced analysis
         if self.enable_v2:
             pattern = self._enhance_with_v2(pattern, session_ids, project_path)
+        
+        # Hybrid Phase 3: Add Mental context
+        if self.enable_mental:
+            pattern = self._enhance_with_mental(pattern, event_sessions, match.session_indices)
 
         return pattern
 
@@ -300,6 +330,129 @@ class PatternDetector:
                 pattern.session_context["workflow_type"]
             )
 
+        return pattern
+    
+    def _enhance_with_mental(
+        self,
+        pattern: DetectedPattern,
+        event_sessions: list[list[ToolEvent]],
+        session_indices: list[int],
+    ) -> DetectedPattern:
+        """
+        Enhance pattern with Mental model context (Phase 3).
+        
+        Adds codebase understanding from Mental model:
+        - Relevant domains (entities being worked on)
+        - Capabilities (actions performed)
+        - Aspects (cross-cutting concerns)
+        - Architecture decisions
+        """
+        if not self.mental_analyzer:
+            return pattern
+        
+        # Collect file paths from all sessions
+        file_paths = []
+        for session_idx in session_indices:
+            if session_idx >= len(event_sessions):
+                continue
+            
+            events = event_sessions[session_idx]
+            for event in events:
+                # Extract file paths from tool metadata
+                if event.metadata:
+                    file_path = event.metadata.get("file") or event.metadata.get("path")
+                    if file_path:
+                        file_paths.append(file_path)
+        
+        if not file_paths:
+            return pattern
+        
+        # Load Mental model
+        mental_model = self.mental_analyzer.load_model()
+        if not mental_model:
+            return pattern
+        
+        try:
+            # Get relevant domains for file paths
+            relevant_domains = self.mental_analyzer.get_relevant_domains(file_paths)
+            
+            if not relevant_domains:
+                return pattern
+            
+            # Get capabilities for these domains
+            capabilities = self.mental_analyzer.get_capabilities_for_domains(relevant_domains)
+            
+            # Get aspects that apply to these capabilities
+            aspects = []
+            for capability in capabilities:
+                cap_aspects = self.mental_analyzer.get_aspects_for_capability(capability)
+                aspects.extend(cap_aspects)
+            
+            # Get architecture decisions for these domains
+            decisions = []
+            for domain in relevant_domains:
+                domain_decisions = self.mental_analyzer.get_decisions_for_domain(domain)
+                decisions.extend(domain_decisions)
+            
+            # Build mental context
+            pattern.mental_context = {
+                "domains": [
+                    {
+                        "name": d.name,
+                        "description": d.description
+                    }
+                    for d in relevant_domains
+                ],
+                "capabilities": [
+                    {
+                        "name": c.name,
+                        "description": c.description,
+                        "operates_on": c.operates_on
+                    }
+                    for c in capabilities
+                ],
+                "aspects": [
+                    {
+                        "name": a.name,
+                        "description": a.description
+                    }
+                    for a in aspects
+                ] if aspects else [],
+                "decisions": [
+                    {
+                        "id": dec.id,
+                        "what": dec.what,
+                        "why": dec.why
+                    }
+                    for dec in decisions[:3]  # Limit to top 3 relevant decisions
+                ] if decisions else []
+            }
+            
+            # Enhance pattern name and description with Mental context
+            if relevant_domains and pattern.suggested_name:
+                # Add primary domain to pattern name if not already present
+                primary_domain = relevant_domains[0].name
+                if primary_domain.lower() not in pattern.suggested_name.lower():
+                    pattern.suggested_name = f"{primary_domain.lower()}-{pattern.suggested_name}"
+            
+            if relevant_domains and capabilities:
+                # Enhance description with Mental context
+                domain_names = [d.name for d in relevant_domains]
+                capability_names = [c.name for c in capabilities[:2]]
+                
+                context_desc = f"Works with {', '.join(domain_names)} domain"
+                if len(domain_names) > 1:
+                    context_desc = f"Works with {', '.join(domain_names)} domains"
+                
+                if capability_names:
+                    context_desc += f" for {', '.join(capability_names)}"
+                
+                pattern.suggested_description = f"{context_desc}. {pattern.suggested_description}"
+        
+        except Exception as e:
+            # Gracefully handle Mental integration errors
+            print(f"Warning: Mental context enrichment failed: {e}")
+        
         return pattern
 
     def _analyze_session_context(self, session_ids: list[str]) -> dict:

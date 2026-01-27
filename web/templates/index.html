@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Auto-Skill - Skill Browser</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+        
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .dashboard {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-card p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .tab {
+            padding: 1rem 2rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab:hover {
+            color: #667eea;
+        }
+        
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .skill-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+        
+        .skill-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .skill-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .badge.local {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .badge.external {
+            background: #2196f3;
+            color: white;
+        }
+        
+        .badge.mental {
+            background: #ff9800;
+            color: white;
+        }
+        
+        .confidence-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+        
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4caf50, #8bc34a);
+            transition: width 0.3s;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .search-box {
+            margin-bottom: 2rem;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .candidate-card {
+            background: #fff3cd;
+            border: 1px solid #ffecb5;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .candidate-card h3 {
+            color: #856404;
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+        
+        .btn-success {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🦦 Claude Auto-Skill</h1>
+            <p>Hybrid Skill Discovery & Management</p>
+        </header>
+        
+        <!-- Dashboard Stats -->
+        <div class="dashboard" id="dashboard">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 id="stat-total">-</h3>
+                    <p>Total Skills</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="stat-local">-</h3>
+                    <p>Local Skills</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="stat-external">-</h3>
+                    <p>External Skills</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="stat-usage">-</h3>
+                    <p>Total Usage</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="stat-success">-</h3>
+                    <p>Success Rate</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tabs -->
+        <div class="dashboard">
+            <div class="tabs">
+                <button class="tab active" data-tab="skills">All Skills</button>
+                <button class="tab" data-tab="graduation">Graduation</button>
+                <button class="tab" data-tab="publish">Publishing</button>
+            </div>
+            
+            <!-- Skills Tab -->
+            <div class="tab-content active" id="tab-skills">
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Search skills...">
+                </div>
+                
+                <div class="skills-grid" id="skills-grid">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading skills...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Graduation Tab -->
+            <div class="tab-content" id="tab-graduation">
+                <h2 style="margin-bottom: 1rem;">Graduation Candidates</h2>
+                <p style="color: #666; margin-bottom: 2rem;">
+                    Skills eligible for graduation from external to local (≥85% confidence, ≥5 uses, ≥80% success)
+                </p>
+                
+                <div id="candidates-list">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading candidates...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Publishing Tab -->
+            <div class="tab-content" id="tab-publish">
+                <h2 style="margin-bottom: 1rem;">Publishable Skills</h2>
+                <p style="color: #666; margin-bottom: 2rem;">
+                    Local skills ready to be published to skills.sh
+                </p>
+                
+                <div id="publishable-list">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading publishable skills...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.dataset.tab;
+                
+                // Update tabs
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Update content
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                document.getElementById(`tab-${tabName}`).classList.add('active');
+                
+                // Load data for tab
+                if (tabName === 'graduation') {
+                    loadGraduationCandidates();
+                } else if (tabName === 'publish') {
+                    loadPublishableSkills();
+                }
+            });
+        });
+        
+        // Load dashboard stats
+        async function loadDashboard() {
+            try {
+                const response = await fetch('/api/stats/dashboard');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const stats = data.stats;
+                    document.getElementById('stat-total').textContent = stats.overview.total_skills;
+                    document.getElementById('stat-local').textContent = stats.overview.local_skills;
+                    document.getElementById('stat-external').textContent = stats.overview.external_skills;
+                    document.getElementById('stat-usage').textContent = stats.overview.total_usage;
+                    document.getElementById('stat-success').textContent = 
+                        `${(stats.overview.avg_success_rate * 100).toFixed(0)}%`;
+                }
+            } catch (error) {
+                console.error('Failed to load dashboard:', error);
+            }
+        }
+        
+        // Load skills
+        async function loadSkills() {
+            try {
+                const response = await fetch('/api/skills');
+                const data = await response.json();
+                
+                if (data.success) {
+                    renderSkills(data.skills);
+                }
+            } catch (error) {
+                console.error('Failed to load skills:', error);
+                document.getElementById('skills-grid').innerHTML = 
+                    '<p style="color: red;">Failed to load skills</p>';
+            }
+        }
+        
+        // Render skills
+        function renderSkills(skills) {
+            const grid = document.getElementById('skills-grid');
+            
+            if (skills.length === 0) {
+                grid.innerHTML = '<p style="color: #666;">No skills found</p>';
+                return;
+            }
+            
+            grid.innerHTML = skills.map(skill => `
+                <div class="skill-card" onclick="showSkillDetail('${skill.name}')">
+                    <h3>${skill.name}</h3>
+                    <div class="skill-meta">
+                        <span class="badge ${skill.source}">${skill.source}</span>
+                        <span>${skill.usage_count} uses</span>
+                        <span>${(skill.success_rate * 100).toFixed(0)}% success</span>
+                    </div>
+                    <div class="confidence-bar">
+                        <div class="confidence-fill" style="width: ${skill.confidence * 100}%"></div>
+                    </div>
+                    <p style="margin-top: 0.5rem; color: #666; font-size: 0.85rem;">
+                        Confidence: ${(skill.confidence * 100).toFixed(0)}%
+                    </p>
+                </div>
+            `).join('');
+        }
+        
+        // Show skill detail
+        function showSkillDetail(skillName) {
+            alert(`Skill detail view coming soon!\n\nSkill: ${skillName}`);
+        }
+        
+        // Load graduation candidates
+        async function loadGraduationCandidates() {
+            try {
+                const response = await fetch('/api/graduation/candidates');
+                const data = await response.json();
+                
+                if (data.success) {
+                    renderCandidates(data.candidates);
+                }
+            } catch (error) {
+                console.error('Failed to load candidates:', error);
+            }
+        }
+        
+        // Render graduation candidates
+        function renderCandidates(candidates) {
+            const list = document.getElementById('candidates-list');
+            
+            if (candidates.length === 0) {
+                list.innerHTML = '<p style="color: #666;">No graduation candidates found</p>';
+                return;
+            }
+            
+            list.innerHTML = candidates.map(c => `
+                <div class="candidate-card">
+                    <h3>🎓 ${c.name}</h3>
+                    <p style="color: #666; margin-bottom: 1rem;">
+                        Confidence: ${(c.confidence * 100).toFixed(0)}% | 
+                        Usage: ${c.usage_count} times | 
+                        Success: ${(c.success_rate * 100).toFixed(0)}%
+                    </p>
+                    <button class="btn btn-success" onclick="graduateSkill('${c.name}')">
+                        Graduate to Local
+                    </button>
+                </div>
+            `).join('');
+        }
+        
+        // Graduate skill
+        async function graduateSkill(skillName) {
+            if (!confirm(`Graduate "${skillName}" to local?`)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/graduation/graduate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ skill_name: skillName })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert(`✅ Successfully graduated "${skillName}"!`);
+                    loadGraduationCandidates();
+                    loadDashboard();
+                    loadSkills();
+                } else {
+                    alert(`❌ Failed: ${data.error}`);
+                }
+            } catch (error) {
+                alert(`❌ Error: ${error.message}`);
+            }
+        }
+        
+        // Load publishable skills
+        async function loadPublishableSkills() {
+            try {
+                const response = await fetch('/api/publish/detect');
+                const data = await response.json();
+                
+                if (data.success) {
+                    renderPublishable(data.skills);
+                }
+            } catch (error) {
+                console.error('Failed to load publishable:', error);
+            }
+        }
+        
+        // Render publishable skills
+        function renderPublishable(skills) {
+            const list = document.getElementById('publishable-list');
+            
+            if (skills.length === 0) {
+                list.innerHTML = '<p style="color: #666;">No publishable skills found</p>';
+                return;
+            }
+            
+            list.innerHTML = skills.map(skillName => `
+                <div class="candidate-card">
+                    <h3>📦 ${skillName}</h3>
+                    <p style="color: #666; margin-bottom: 1rem;">
+                        Ready to publish to skills.sh
+                    </p>
+                    <button class="btn btn-primary" onclick="publishSkill('${skillName}')">
+                        Publish to skills.sh
+                    </button>
+                </div>
+            `).join('');
+        }
+        
+        // Publish skill
+        async function publishSkill(skillName) {
+            if (!confirm(`Publish "${skillName}" to skills.sh?`)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/publish/publish', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ skill_name: skillName })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert(`✅ Successfully published "${skillName}"!\n\nURL: ${data.url}`);
+                    loadPublishableSkills();
+                } else {
+                    alert(`❌ Failed: ${data.error}`);
+                }
+            } catch (error) {
+                alert(`❌ Error: ${error.message}`);
+            }
+        }
+        
+        // Search
+        let searchTimeout;
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const query = e.target.value.toLowerCase();
+                
+                // Filter visible skills
+                document.querySelectorAll('.skill-card').forEach(card => {
+                    const name = card.querySelector('h3').textContent.toLowerCase();
+                    card.style.display = name.includes(query) ? 'block' : 'none';
+                });
+            }, 300);
+        });
+        
+        // Initialize
+        loadDashboard();
+        loadSkills();
+    </script>
+</body>
+</html>
