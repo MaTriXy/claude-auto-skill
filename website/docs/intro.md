@@ -39,6 +39,16 @@ You review and approve → skill is active
 - **Graduation System** — External skills earn trust through usage, graduating to local skills at high confidence
 - **Human-in-the-Loop** — Every skill requires your approval before activation
 
+### New in V3.0
+
+- **[Multi-Agent Support](features/agent-registry)** — 10 coding agents with cross-agent skill sharing
+- **[Provider System](features/providers)** — Pluggable skill discovery (local, Skills.sh, RFC 8615)
+- **[Lock File](features/security)** — SHA-256 integrity verification with atomic writes
+- **[Anonymous Telemetry](features/telemetry)** — Privacy-first usage tracking
+- **[Path Security](features/security)** — Traversal prevention and spec compliance
+- **[Unified CLI](features/cli)** — `auto-skill` entry point with `--json` support
+- **PyPI Distribution** — `pip install claude-auto-skill`
+
 ## How Confidence Works
 
 Skills aren't created blindly. Each pattern gets a confidence score based on repetition, success rate, sequence length, and recency:

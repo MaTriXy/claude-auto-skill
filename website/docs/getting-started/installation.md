@@ -11,20 +11,17 @@ sidebar_position: 1
 
 ## Install
 
-Clone the repository:
-
 ```bash
+# From PyPI (recommended)
+pip install claude-auto-skill
+
+# Or from source
 git clone https://github.com/MaTriXy/claude-auto-skill.git
 cd claude-auto-skill
-```
-
-Install dependencies:
-
-```bash
 pip install -e .
 ```
 
-This installs the core dependency (PyYAML) and registers the CLI entry points.
+This installs the core dependency (PyYAML) and registers the `auto-skill` CLI entry point.
 
 ### Optional: V2 Features
 
@@ -50,7 +47,7 @@ pip install -r web/requirements.txt
 Run the init command to set up directories and databases:
 
 ```bash
-python -m commands.init
+auto-skill init
 ```
 
 This creates:
@@ -86,7 +83,8 @@ Copy or merge this into your Claude Code hooks configuration to start observing.
 Check that everything is set up:
 
 ```bash
-python -m commands.discover --stats
+auto-skill version
+auto-skill stats
 ```
 
 You should see an empty stats output (no patterns detected yet). As you use Claude Code with the hooks active, patterns will start accumulating.
