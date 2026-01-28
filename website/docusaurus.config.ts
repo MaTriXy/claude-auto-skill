@@ -85,7 +85,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Claude Auto-Skill. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Yossi Elkrief (MaTriXy). All rights reserved. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,
