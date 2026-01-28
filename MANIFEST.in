@@ -30,3 +30,4 @@ recursive-exclude *.pyc *
 recursive-exclude .pytest_cache *
 recursive-exclude .mypy_cache *
 recursive-exclude htmlcov *
+recursive-exclude website *

@@ -50,7 +50,7 @@ all = [
 
 [project.urls]
 Homepage = "https://github.com/MaTriXy/claude-auto-skill"
-Documentation = "https://github.com/MaTriXy/claude-auto-skill#readme"
+Documentation = "https://MaTriXy.github.io/claude-auto-skill/"
 Repository = "https://github.com/MaTriXy/claude-auto-skill"
 Issues = "https://github.com/MaTriXy/claude-auto-skill/issues"
 Changelog = "https://github.com/MaTriXy/claude-auto-skill/blob/main/CHANGELOG.md"

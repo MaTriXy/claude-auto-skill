@@ -42,6 +42,9 @@ Thumbs.db
 .coverage
 htmlcov/
 
+# Node / Docusaurus
+node_modules/
+
 # Claude Auto-Skill specific
 *.db
 *.db-journal
