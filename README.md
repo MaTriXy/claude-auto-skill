@@ -4,7 +4,6 @@
 
 Claude Auto-Skill observes your Claude Code sessions, detects repeated patterns, and generates reusable SKILL.md files. It combines local pattern detection with external skill discovery, multi-agent support, and anonymous telemetry.
 
-[![PyPI](https://img.shields.io/pypi/v/claude-auto-skill.svg)](https://pypi.org/project/claude-auto-skill/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.9+-green.svg)](https://python.org)
 [![Docs](https://img.shields.io/badge/docs-Docusaurus-blue.svg)](https://MaTriXy.github.io/claude-auto-skill)
