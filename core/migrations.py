@@ -8,7 +8,7 @@ import sqlite3
 from pathlib import Path
 from typing import List, Callable, Optional
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 @dataclass
@@ -135,7 +135,7 @@ class MigrationManager:
                 """, (
                     migration.version,
                     migration.name,
-                    datetime.utcnow().isoformat()
+                    datetime.now(timezone.utc).isoformat()
                 ))
                 
                 conn.commit()
@@ -365,7 +365,85 @@ def create_event_store_migrations(db_path: Path) -> MigrationManager:
         up=migration_3_up,
         down=migration_3_down
     )
-    
+
+    # Migration 4: Add agent_id column
+    def migration_4_up(conn: sqlite3.Connection):
+        """Add agent_id column for multi-agent tracking."""
+        conn.execute("""
+            ALTER TABLE tool_events ADD COLUMN agent_id TEXT
+        """)
+        conn.execute("""
+            CREATE INDEX IF NOT EXISTS idx_agent_id
+            ON tool_events(agent_id)
+        """)
+
+    def migration_4_down(conn: sqlite3.Connection):
+        """Remove agent_id column (requires table recreation in SQLite)."""
+        conn.execute("""
+            CREATE TABLE tool_events_backup AS
+            SELECT id, session_id, tool_name, timestamp, success, metadata,
+                   project_path, created_at, inputs
+            FROM tool_events
+        """)
+        conn.execute("DROP TABLE tool_events")
+        conn.execute("ALTER TABLE tool_events_backup RENAME TO tool_events")
+        conn.execute("CREATE INDEX idx_session_id ON tool_events(session_id)")
+        conn.execute("CREATE INDEX idx_timestamp ON tool_events(timestamp)")
+        conn.execute("CREATE INDEX idx_project_path ON tool_events(project_path)")
+
+    manager.register(
+        version=4,
+        name="add_agent_id",
+        description="Add agent_id column for multi-agent tracking",
+        up=migration_4_up,
+        down=migration_4_down
+    )
+
+    return manager
+
+
+def create_telemetry_migrations(db_path: Path) -> MigrationManager:
+    """Create migration manager with Telemetry migrations.
+
+    Args:
+        db_path: Path to Telemetry database
+
+    Returns:
+        Configured MigrationManager
+    """
+    manager = MigrationManager(db_path)
+
+    # Migration 1: Initial schema
+    def migration_1_up(conn: sqlite3.Connection):
+        """Create skill_telemetry table."""
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS skill_telemetry (
+                id TEXT PRIMARY KEY,
+                skill_id TEXT NOT NULL,
+                skill_name TEXT NOT NULL,
+                session_id TEXT NOT NULL,
+                agent_id TEXT NOT NULL DEFAULT 'unknown',
+                duration_ms INTEGER,
+                outcome TEXT NOT NULL,
+                timestamp TEXT NOT NULL
+            )
+        """)
+        conn.execute("""
+            CREATE INDEX IF NOT EXISTS idx_telemetry_skill
+            ON skill_telemetry(skill_id)
+        """)
+        conn.execute("""
+            CREATE INDEX IF NOT EXISTS idx_telemetry_timestamp
+            ON skill_telemetry(timestamp)
+        """)
+
+    manager.register(
+        version=1,
+        name="initial_telemetry",
+        description="Create skill_telemetry table with indexes",
+        up=migration_1_up
+    )
+
     return manager
 
 

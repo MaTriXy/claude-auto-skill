@@ -18,6 +18,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from core.event_store import EventStore
 from core.pattern_detector import PatternDetector
 from core.skill_generator import SkillGenerator
+from core.agent_registry import AgentRegistry
 
 
 def get_session_id() -> str:
@@ -28,6 +29,13 @@ def get_session_id() -> str:
 def get_project_path() -> str:
     """Get the current project path from environment."""
     return os.environ.get("CLAUDE_PROJECT_DIR", os.getcwd())
+
+
+def get_agent_id() -> str:
+    """Detect the current agent from environment."""
+    registry = AgentRegistry()
+    agent = registry.detect_current_agent()
+    return agent.id if agent else "unknown"
 
 
 def parse_hook_input() -> dict:
@@ -82,6 +90,7 @@ def record_event() -> None:
         tool_input=tool_input,
         tool_response=str(tool_response) if tool_response else None,
         success=success,
+        agent_id=get_agent_id(),
     )
 
 

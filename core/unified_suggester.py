@@ -16,6 +16,8 @@ from pathlib import Path
 from .mental_analyzer import MentalAnalyzer, MentalModel, MentalCapability
 from .skillssh_client import SkillsShClient, ExternalSkill
 from .skill_tracker import SkillTracker, SkillAdoption
+from .providers.base import SkillProvider, SkillSearchResult
+from .providers.skillssh_provider import SkillsShProvider
 
 
 @dataclass
@@ -79,7 +81,8 @@ class UnifiedSuggester:
         self,
         project_path: Optional[Path] = None,
         enable_mental: bool = True,
-        enable_external: bool = True
+        enable_external: bool = True,
+        providers: Optional[list[SkillProvider]] = None,
     ):
         """
         Initialize unified suggester.
@@ -88,6 +91,9 @@ class UnifiedSuggester:
             project_path: Path to project (default: current directory)
             enable_mental: Enable Mental model integration
             enable_external: Enable Skills.sh integration
+            providers: Optional list of SkillProvider instances. If provided,
+                these are used instead of the default SkillsShClient for
+                external skill discovery.
         """
         self.project_path = project_path or Path.cwd()
 
@@ -95,6 +101,12 @@ class UnifiedSuggester:
         self.mental = MentalAnalyzer(project_path) if enable_mental else None
         self.skillssh = SkillsShClient() if enable_external else None
         self.tracker = SkillTracker()
+
+        # Provider-based discovery (new abstraction)
+        self.providers: list[SkillProvider] = providers or []
+        if not self.providers and enable_external:
+            # Default: wrap existing SkillsShClient as a provider
+            self.providers.append(SkillsShProvider(self.skillssh))
 
         # Cache for Mental model (loaded once)
         self._mental_model: Optional[MentalModel] = None

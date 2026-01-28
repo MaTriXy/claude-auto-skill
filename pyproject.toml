@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "claude-auto-skill"
-version = "2.0.0"
+version = "3.0.0"
 description = "Automatically learn from your workflows and turn them into intelligent, context-aware skills"
 readme = "README.md"
 authors = [
@@ -56,11 +56,13 @@ Issues = "https://github.com/MaTriXy/claude-auto-skill/issues"
 Changelog = "https://github.com/MaTriXy/claude-auto-skill/blob/main/CHANGELOG.md"
 
 [project.scripts]
-auto-skill = "commands.init:main"
+auto-skill = "commands.cli:main"
+# Legacy entry points (deprecated, use `auto-skill <subcommand>` instead)
+auto-skill-init = "commands.init:main"
 auto-skill-discover = "commands.discover:main"
 
 [tool.setuptools]
-packages = ["core", "commands", "scripts"]
+packages = ["core", "core.providers", "commands", "hooks", "scripts"]
 
 [tool.setuptools.package-data]
 "*" = ["*.md", "*.json", "*.yaml"]

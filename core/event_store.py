@@ -28,9 +28,10 @@ class ToolEvent:
     tool_response: Optional[str]
     success: bool
     timestamp: datetime
+    agent_id: Optional[str] = None
 
     def to_dict(self) -> dict:
-        return {
+        result = {
             "id": self.id,
             "session_id": self.session_id,
             "project_path": self.project_path,
@@ -40,6 +41,9 @@ class ToolEvent:
             "success": self.success,
             "timestamp": self.timestamp.isoformat(),
         }
+        if self.agent_id:
+            result["agent_id"] = self.agent_id
+        return result
 
 
 class EventStore:
@@ -95,6 +99,7 @@ class EventStore:
         tool_input: dict,
         tool_response: Optional[str] = None,
         success: bool = True,
+        agent_id: Optional[str] = None,
     ) -> ToolEvent:
         """
         Record a tool usage event.
@@ -119,6 +124,7 @@ class EventStore:
             tool_response=self._truncate_response(tool_response),
             success=success,
             timestamp=datetime.now(timezone.utc),
+            agent_id=agent_id,
         )
 
         with sqlite3.connect(self.db_path) as conn:

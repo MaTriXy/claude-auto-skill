@@ -145,18 +145,16 @@ python app.py
 ### Installation
 
 ```bash
-# Clone repository
+# Install from PyPI (recommended)
+pip install claude-auto-skill
+
+# Or clone for development
 git clone https://github.com/MaTriXy/claude-auto-skill.git
 cd claude-auto-skill
-
-# Install dependencies (using uv - recommended)
-uv sync
-
-# Or use pip
-pip install -r requirements.txt
+pip install -e ".[dev]"
 
 # Initialize (creates config and directories)
-python -m commands.init
+auto-skill init
 ```
 
 ### Optional: Install Mental Model CLI
@@ -376,29 +374,38 @@ Process payment transactions using test-driven development.
 
 ## 🛠️ Commands
 
-### Discovery Commands
+### Unified CLI
+
+All commands use the `auto-skill` entry point:
 
 ```bash
-# Basic discovery
-python -m commands.discover
+# Core commands
+auto-skill init                # Initialize auto-skill config and directories
+auto-skill discover            # Discover skills for current project
+auto-skill search "query"      # Search external skills
+auto-skill stats               # Show adoption statistics
+auto-skill graduate            # Manage skill graduation
 
-# Search external skills
-python -m commands.discover --search "payment"
+# Agent management
+auto-skill agents list         # List known agents
+auto-skill agents detect       # Detect installed agents
 
-# Show adoption stats
-python -m commands.discover --stats
+# Lock file (integrity verification)
+auto-skill lock status         # Show lock file status
+auto-skill lock verify         # Verify skill integrity (SHA-256)
+auto-skill lock list           # List locked skills
 
-# Show graduation candidates
-python -m commands.discover --candidates
+# Telemetry
+auto-skill telemetry report    # Show effectiveness report
+auto-skill telemetry events    # Show raw events
 
-# Suggest for Mental domain
-python -m commands.discover --domain Payment
+# Utility
+auto-skill version             # Show version
 
-# Export as JSON
-python -m commands.discover --json
-
-# Limit results
-python -m commands.discover --limit 5
+# All commands support JSON output
+auto-skill discover --json
+auto-skill agents list --json
+auto-skill lock status --json
 ```
 
 ### Configuration
@@ -446,23 +453,38 @@ pytest tests/ --cov=core --cov-report=html
 
 ```
 claude-auto-skill/
-├── core/                      # Core modules
-│   ├── pattern_detector.py   # Pattern detection + Mental
-│   ├── skill_generator.py    # Skill generation + Vercel
-│   ├── mental_analyzer.py    # Mental Model integration
-│   ├── skillssh_client.py    # Skills.sh API
-│   ├── skill_tracker.py      # Adoption tracking
-│   ├── unified_suggester.py  # Multi-source discovery
-│   ├── session_analyzer.py   # V2 session analysis
-│   ├── lsp_analyzer.py        # V2 code structure
-│   └── design_pattern_detector.py  # V2 patterns
+├── core/                           # Core modules
+│   ├── path_security.py           # Path traversal protection
+│   ├── spec_validator.py          # agentskills.io spec compliance
+│   ├── agent_registry.py         # Multi-agent detection & symlinks
+│   ├── lock_file.py               # SHA-256 integrity lock file
+│   ├── telemetry.py               # Anonymous telemetry (local + remote)
+│   ├── providers/                 # Pluggable skill providers
+│   │   ├── base.py               # SkillProvider protocol
+│   │   ├── manager.py            # Multi-provider orchestration
+│   │   ├── local_provider.py     # Local ~/.claude/skills/ search
+│   │   ├── skillssh_provider.py  # Skills.sh integration
+│   │   └── wellknown_provider.py # RFC 8615 discovery
+│   ├── pattern_detector.py       # Pattern detection + Mental
+│   ├── skill_generator.py        # Skill generation + Vercel
+│   ├── mental_analyzer.py        # Mental Model integration
+│   ├── skillssh_client.py        # Skills.sh API
+│   ├── skill_tracker.py          # Adoption tracking
+│   ├── unified_suggester.py      # Multi-source discovery
+│   ├── session_analyzer.py       # V2 session analysis
+│   ├── lsp_analyzer.py           # V2 code structure
+│   └── design_pattern_detector.py # V2 patterns
 ├── commands/
-│   ├── discover.py            # Discovery CLI
-│   └── init.py                # Initialization command
-├── tests/                     # Test suites
-├── examples/                  # Working examples
-├── skills/                    # Generated skills
-└── planning/                  # Implementation docs
+│   ├── cli.py                     # Unified CLI entry point
+│   ├── discover.py                # Discovery subcommand
+│   ├── init.py                    # Initialization subcommand
+│   ├── agents.py                  # Agent management subcommand
+│   ├── lock.py                    # Lock file subcommand
+│   └── telemetry_cmd.py          # Telemetry subcommand
+├── hooks/                         # Event capture hooks
+├── tests/                         # Test suites
+├── skills/                        # Generated skills
+└── .github/workflows/publish.yml  # PyPI publish on tagged releases
 ```
 
 ---
@@ -563,6 +585,118 @@ mkdocs serve
 
 ---
 
+## 🔐 V3.0 Features
+
+### Path Security
+
+All skill names and file paths are validated to prevent path traversal attacks:
+- Names sanitized to spec-compliant kebab-case (max 64 chars)
+- Unicode NFKD normalization
+- Null byte and `../` injection blocked
+- Symlink escape prevention
+
+### agentskills.io Spec Compliance
+
+Generated skills are validated against the [agentskills.io](https://agentskills.io) spec:
+- Name format: `^[a-z0-9]([a-z0-9-]*[a-z0-9])?$`
+- Description max 1024 chars
+- `allowed-tools` as YAML list (not comma string)
+- `version` field required
+
+### Agent Registry
+
+Detects and manages 10 coding agents:
+
+| Agent | Detection | Skill Directory |
+|-------|-----------|-----------------|
+| Claude Code | `CLAUDE_CODE` env | `~/.claude/skills/` |
+| OpenCode | `OPENCODE` env | `~/.opencode/skills/` |
+| Codex | `CODEX_CLI` env | `~/.codex/skills/` |
+| Continue | `CONTINUE` env | `~/.continue/skills/` |
+| Aider | `AIDER` env | `~/.aider/skills/` |
+| Cursor | `CURSOR` env | `~/.cursor/skills/` |
+| Windsurf | `WINDSURF` env | `~/.windsurf/skills/` |
+| Cline | `CLINE` env | `~/.cline/skills/` |
+| Amp | `AMP` env | `~/.amp/skills/` |
+| Copilot | `GITHUB_COPILOT` env | `~/.copilot/skills/` |
+
+Skills are automatically symlinked to all detected agents for cross-agent sharing.
+
+### Provider System
+
+Pluggable skill discovery via the `SkillProvider` protocol:
+
+- **LocalProvider** — searches `~/.claude/skills/`
+- **SkillsShProvider** — queries skills.sh
+- **WellKnownProvider** — RFC 8615 `/.well-known/agent-skills.json` discovery
+
+Add custom providers by implementing the `SkillProvider` protocol.
+
+### Lock File
+
+Integrity verification using SHA-256 content hashes:
+
+```bash
+auto-skill lock status    # Show lock file info
+auto-skill lock verify    # Verify all skill hashes
+auto-skill lock list      # List locked skills with hashes
+```
+
+Lock file stored at `~/.claude/auto-skill/skills.lock.json` with atomic writes.
+
+---
+
+## Telemetry Disclosure
+
+> **Notice:** This tool collects anonymous usage data to help improve the experience.
+> This is **enabled by default** but can be easily disabled.
+
+### What We Collect
+
+We collect **anonymous, aggregate metrics only**:
+
+| Data | Example | Purpose |
+|------|---------|---------|
+| Event type | `skill_used`, `search` | Know which features are used |
+| Result counts | `5 results` | Understand effectiveness |
+| Timing | `45ms` | Monitor performance |
+| Outcome | `success` / `failure` | Track skill reliability |
+| Agent name | `claude-code` | Ensure compatibility |
+| System info | `darwin`, `python 3.12` | Ensure compatibility |
+| Tool version | `3.0.0` | Track adoption |
+
+### What We Do NOT Collect
+
+- **No search queries** - We never see what you search for
+- **No file names or paths** - We don't know which files you access
+- **No session IDs** - We don't track individual sessions
+- **No skill content** - We don't see your skill definitions
+- **No IP addresses** - We don't track your location
+- **No personal information** - Completely anonymous
+
+### Disable Telemetry
+
+```bash
+# Option 1: Tool-specific
+export AUTO_SKILL_NO_TELEMETRY=1
+
+# Option 2: Universal standard (works with other tools too)
+export DO_NOT_TRACK=1
+```
+
+Add to your `~/.bashrc` or `~/.zshrc` to disable permanently.
+
+### Automatic Opt-Out
+
+Telemetry is **automatically disabled** in CI environments:
+- GitHub Actions, GitLab CI, CircleCI, Travis CI, Buildkite, Jenkins
+
+### Transparency
+
+The telemetry implementation is fully open source: [`core/telemetry.py`](core/telemetry.py)
+
+---
+
 ## 🔧 Troubleshooting
 
 ### Mental Model not found
@@ -614,9 +748,8 @@ MIT License - see [LICENSE](LICENSE) file
 
 ---
 
-**Version**: 2.0.0 + Hybrid Integration  
-**Status**: Production Ready ✅  
-**Rating**: ⭐⭐⭐⭐⭐
+**Version**: 3.0.0
+**Status**: Production Ready
 
 ---
 

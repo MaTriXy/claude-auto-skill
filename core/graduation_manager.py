@@ -17,6 +17,7 @@ from typing import List, Optional, Dict, Any
 from core.skill_tracker import SkillTracker
 from core.skill_generator import SkillGenerator
 from core.pattern_detector import DetectedPattern
+from core.path_security import sanitize_name, is_path_safe, safe_write
 
 
 @dataclass
@@ -220,34 +221,28 @@ class GraduationManager:
     
     def _generate_local_skill(self, candidate: GraduationCandidate) -> Path:
         """Generate local skill file from external candidate.
-        
+
+        Uses path security to sanitize the skill name and validate paths.
+
         Args:
             candidate: Graduation candidate with metadata
-        
+
         Returns:
             Path to generated SKILL.md
+
+        Raises:
+            ValueError: If the skill name or path is unsafe.
         """
-        # Create a pseudo-pattern for skill generator
-        # (graduation uses external metadata, not pattern detection)
-        pattern = DetectedPattern(
-            name=candidate.skill_name,
-            description=candidate.metadata.get('description', f"Graduated skill: {candidate.skill_name}"),
-            tool_sequence=[],
-            occurrences=candidate.usage_count,
-            confidence=0.80,  # Local starting confidence
-            mental_context=candidate.metadata.get('mental_context')
-        )
-        
-        # Generate skill
-        generator = SkillGenerator(output_dir=str(self.skills_dir))
-        
-        # Override metadata for graduated skill
+        # Sanitize the skill name for safe filesystem usage
+        safe_name = sanitize_name(candidate.skill_name)
+
+        # Build skill content
         skill_content = self._build_graduated_skill_content(candidate)
-        
-        # Save skill
-        skill_path = self.skills_dir / f"{candidate.skill_name}.md"
-        skill_path.write_text(skill_content)
-        
+
+        # Validate and write using safe_write
+        skill_path = self.skills_dir / f"{safe_name}.md"
+        safe_write(skill_content, skill_path, self.skills_dir)
+
         return skill_path
     
     def _build_graduated_skill_content(self, candidate: GraduationCandidate) -> str:

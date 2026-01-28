@@ -15,6 +15,9 @@ from typing import Optional
 import yaml
 
 from .pattern_detector import DetectedPattern
+from .path_security import sanitize_name, is_path_safe, safe_write
+from .agent_registry import AgentRegistry
+from .lock_file import LockFile
 
 
 @dataclass
@@ -130,12 +133,32 @@ class SkillGenerator:
             v2_content=v2_content,
         )
 
-    def save_skill(self, candidate: SkillCandidate, update_registry: bool = True) -> Path:
-        """Save a skill candidate to disk."""
-        candidate.output_path.parent.mkdir(parents=True, exist_ok=True)
+    def save_skill(
+        self,
+        candidate: SkillCandidate,
+        update_registry: bool = True,
+        create_symlinks: bool = False,
+    ) -> Path:
+        """Save a skill candidate to disk.
+
+        Uses path security validation to prevent path traversal attacks.
+        Optionally creates symlinks to other installed agents.
+
+        Args:
+            candidate: The skill candidate to save.
+            update_registry: Whether to update the skill registry.
+            create_symlinks: Whether to create symlinks to other agents.
+
+        Returns:
+            Path to the saved SKILL.md file.
+        """
+        if not is_path_safe(candidate.output_path, self.output_dir):
+            raise ValueError(
+                f"Unsafe skill path: {candidate.output_path} is not within {self.output_dir}"
+            )
 
         content = candidate.render()
-        candidate.output_path.write_text(content)
+        safe_write(content, candidate.output_path, self.output_dir)
 
         # Update registry if available
         if update_registry:
@@ -148,6 +171,30 @@ class SkillGenerator:
                     add_skill_to_registry(candidate.output_path.parent)
             except (ImportError, FileNotFoundError):
                 pass
+
+        # Update lock file
+        try:
+            lock = LockFile()
+            lock.load()
+            lock.add_skill(
+                name=candidate.name,
+                path=str(candidate.output_path),
+                content=content,
+                source="auto",
+            )
+            lock.save()
+        except Exception:
+            pass  # Lock file update is best-effort
+
+        # Create symlinks to other installed agents
+        if create_symlinks:
+            registry = AgentRegistry()
+            current = registry.detect_current_agent()
+            registry.create_skill_symlinks(
+                skill_path=candidate.output_path,
+                skill_name=candidate.name,
+                exclude_agent_id=current.id if current else None,
+            )
 
         return candidate.output_path
 
@@ -399,21 +446,20 @@ class SkillGenerator:
         return tags[:10]
 
     def _generate_skill_name(self, pattern: DetectedPattern) -> str:
-        """Generate kebab-case skill name."""
+        """Generate kebab-case skill name, sanitized for path safety and spec compliance."""
         if pattern.suggested_name:
-            name = pattern.suggested_name
+            raw_name = pattern.suggested_name
         else:
             tools = pattern.tool_sequence
             if len(tools) >= 2:
-                name = f"{tools[0].lower()}-{tools[-1].lower()}-workflow"
+                raw_name = f"{tools[0].lower()}-{tools[-1].lower()}-workflow"
             else:
-                name = f"{tools[0].lower()}-workflow" if tools else "auto-workflow"
+                raw_name = f"{tools[0].lower()}-workflow" if tools else "auto-workflow"
 
-        name = re.sub(r"[^a-zA-Z0-9-]", "-", name)
-        name = re.sub(r"-+", "-", name)
-        name = name.strip("-").lower()
+        # Append pattern ID fragment before sanitizing
+        raw_name = f"{raw_name}-{pattern.id[:6]}"
 
-        return f"{name}-{pattern.id[:6]}"
+        return sanitize_name(raw_name)
 
     def _generate_description(self, pattern: DetectedPattern) -> str:
         """Generate description."""
@@ -447,7 +493,8 @@ class SkillGenerator:
         """Build YAML frontmatter with v1 + v2 metadata."""
         fm = {
             "name": name,
-            "description": description,
+            "description": description[:1024],  # Spec max 1024 chars
+            "version": "1.0.0",
         }
 
         if use_fork:
@@ -456,7 +503,7 @@ class SkillGenerator:
                 fm["agent"] = agent_type
 
         if allowed_tools:
-            fm["allowed-tools"] = ", ".join(allowed_tools)
+            fm["allowed-tools"] = list(allowed_tools)  # YAML list, not comma string
 
         # V1 metadata
         fm.update({

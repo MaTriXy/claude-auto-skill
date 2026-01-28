@@ -45,10 +45,44 @@ class DetectionConfig:
 
 
 @dataclass
+class AgentSettings:
+    """Configuration for multi-agent support."""
+
+    auto_detect: bool = True  # Auto-detect installed agents
+    target_agents: list[str] = field(default_factory=list)  # Specific agent IDs to target
+    symlink_skills: bool = True  # Create symlinks to share skills across agents
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "AgentSettings":
+        return cls(
+            auto_detect=data.get("auto_detect", True),
+            target_agents=data.get("target_agents", []),
+            symlink_skills=data.get("symlink_skills", True),
+        )
+
+
+@dataclass
+class ProviderSettings:
+    """Configuration for skill providers."""
+
+    enabled_providers: list[str] = field(default_factory=lambda: ["skillssh"])
+    wellknown_domains: list[str] = field(default_factory=list)
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "ProviderSettings":
+        return cls(
+            enabled_providers=data.get("enabled_providers", ["skillssh"]),
+            wellknown_domains=data.get("wellknown_domains", []),
+        )
+
+
+@dataclass
 class Config:
     """Full configuration for Auto-Skill."""
 
     detection: DetectionConfig = field(default_factory=DetectionConfig)
+    agents: AgentSettings = field(default_factory=AgentSettings)
+    providers: ProviderSettings = field(default_factory=ProviderSettings)
     db_path: Optional[Path] = None
     skills_output_dir: Optional[Path] = None
     enabled: bool = True
@@ -92,6 +126,14 @@ class Config:
                     # Merge detection config
                     if "detection" in data:
                         self.detection = DetectionConfig.from_dict(data["detection"])
+
+                    # Merge agent config
+                    if "agents" in data:
+                        self.agents = AgentSettings.from_dict(data["agents"])
+
+                    # Merge provider config
+                    if "providers" in data:
+                        self.providers = ProviderSettings.from_dict(data["providers"])
 
                     # Merge other settings
                     if "enabled" in data:

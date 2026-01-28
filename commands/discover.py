@@ -20,6 +20,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from core.unified_suggester import UnifiedSuggester
 from core.skillssh_client import SkillsShClient
+from core.providers import ProviderManager, SkillsShProvider, LocalProvider
 
 
 def format_confidence_bar(confidence: float, width: int = 10) -> str:
@@ -297,6 +298,79 @@ def candidates_command(args):
         print()
 
 
+def effectiveness_command(args):
+    """Show skill effectiveness report from telemetry."""
+    from core.telemetry import TelemetryCollector
+
+    collector = TelemetryCollector()
+    reports = collector.get_effectiveness_report()
+
+    if args.json:
+        output_json({
+            "count": len(reports),
+            "reports": [r.to_dict() for r in reports]
+        })
+        return
+
+    print("\n📊 Skill Effectiveness Report\n")
+
+    if not reports:
+        print("No telemetry data yet. Use skills to start collecting data.")
+        return
+
+    for report in reports:
+        bar = format_confidence_bar(report.success_rate)
+        print(f"  {report.skill_name}")
+        print(f"    Uses: {report.total_uses} | Success: [{bar}] {report.success_rate:.0%}")
+        if report.avg_duration_ms:
+            print(f"    Avg Duration: {report.avg_duration_ms:.0f}ms")
+        print(f"    Agents: {', '.join(report.agents_used)}")
+        print(f"    Last Used: {report.last_used}")
+        print()
+
+
+def wellknown_command(args):
+    """Discover skills from well-known endpoints."""
+    from core.providers.wellknown_provider import WellKnownProvider
+
+    domains = args.wellknown if args.wellknown else []
+
+    if not domains:
+        if args.json:
+            output_json({"error": "No domains specified", "skills": []})
+        else:
+            print("No domains specified. Usage: --wellknown example.com skills.dev")
+        return
+
+    provider = WellKnownProvider(domains=domains)
+    results = provider.search("", limit=args.limit)
+
+    if args.json:
+        output_json({
+            "domains": domains,
+            "count": len(results),
+            "skills": [r.to_dict() for r in results]
+        })
+        return
+
+    print(f"\n🌐 Well-Known Discovery ({len(domains)} domains)\n")
+
+    if not results:
+        print("No skills found from specified domains.")
+        return
+
+    print(f"Found {len(results)} skills:\n")
+    for i, skill in enumerate(results, 1):
+        print(f"{i}. {skill.name}")
+        print(f"   {skill.description}")
+        if skill.author:
+            print(f"   Author: {skill.author}")
+        if skill.tags:
+            print(f"   Tags: {', '.join(skill.tags)}")
+        print(f"   Source: {skill.metadata.get('domain', 'unknown') if skill.metadata else 'unknown'}")
+        print()
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Discover skills from Mental, Skills.sh, and local patterns",
@@ -312,6 +386,14 @@ def main():
     parser.add_argument("--stats", action="store_true", help="Show adoption statistics")
     parser.add_argument("--domain", help="Suggest skills for a Mental domain")
     parser.add_argument("--candidates", action="store_true", help="Show graduation candidates")
+    parser.add_argument(
+        "--wellknown", nargs="*", metavar="DOMAIN",
+        help="Discover skills from well-known endpoints (RFC 8615)"
+    )
+    parser.add_argument(
+        "--effectiveness", action="store_true",
+        help="Show skill effectiveness report from telemetry"
+    )
 
     # Output options
     parser.add_argument("--json", action="store_true", help="Output as JSON (for scripting)")
@@ -328,6 +410,10 @@ def main():
         domain_command(args)
     elif args.candidates:
         candidates_command(args)
+    elif args.wellknown is not None:
+        wellknown_command(args)
+    elif args.effectiveness:
+        effectiveness_command(args)
     else:
         discover_command(args)
 
