@@ -50,3 +50,4 @@ node_modules/
 *.db-journal
 .claude/
 planning/
+video/
