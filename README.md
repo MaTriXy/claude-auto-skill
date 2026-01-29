@@ -8,6 +8,7 @@
 
 Auto-Skill observes your coding sessions across 10 supported agents, detects repeated patterns, and generates reusable SKILL.md files. Skills are automatically shared across all your installed agents. It combines local pattern detection with external skill discovery, cross-agent sharing, and anonymous telemetry.
 
+[![PyPI](https://img.shields.io/pypi/v/aiskill)](https://pypi.org/project/aiskill/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Docs](https://img.shields.io/badge/docs-Docusaurus-blue.svg)](https://MaTriXy.github.io/auto-skill)
 
@@ -15,6 +16,16 @@ Auto-Skill observes your coding sessions across 10 supported agents, detects rep
 
 ```bash
 npx skills add MaTriXy/auto-skill
+```
+
+### Install CLI
+
+```bash
+# With pip
+pip install aiskill
+
+# With uv
+uv pip install aiskill
 ```
 
 Once installed, the plugin automatically:
