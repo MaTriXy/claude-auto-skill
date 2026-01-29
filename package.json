@@ -1,0 +1,25 @@
+{
+  "name": "auto-skill",
+  "version": "3.0.0",
+  "description": "Automatically learn from your workflows and turn them into intelligent, context-aware skills",
+  "scripts": {
+    "postinstall": "bash install-cli.sh || true"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MaTriXy/auto-skill.git"
+  },
+  "keywords": [
+    "ai",
+    "agent",
+    "skills",
+    "automation",
+    "workflow"
+  ],
+  "author": "MaTriXy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MaTriXy/auto-skill/issues"
+  },
+  "homepage": "https://MaTriXy.github.io/auto-skill"
+}
