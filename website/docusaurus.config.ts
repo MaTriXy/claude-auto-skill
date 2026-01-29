@@ -57,7 +57,7 @@ const config: Config = {
       title: 'Auto-Skill',
       logo: {
         alt: 'Auto-Skill Logo',
-        src: 'img/favicon.svg',
+        src: 'img/logo.svg',
       },
       items: [
         {

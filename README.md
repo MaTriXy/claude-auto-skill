@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="website/static/img/favicon.svg" alt="Auto-Skill Logo" width="120" />
+  <img src="website/static/img/logo.svg" alt="Auto-Skill Logo" width="120" />
 </p>
 
 # Auto-Skill
