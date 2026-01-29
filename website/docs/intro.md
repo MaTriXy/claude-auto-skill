@@ -4,7 +4,9 @@ sidebar_label: Introduction
 slug: /
 ---
 
-![Auto-Skill Logo](/img/logo.svg)
+<p align="center">
+  <img src={require('@site/static/img/logo.svg').default} alt="Auto-Skill Logo" width="120" />
+</p>
 
 # Auto-Skill
 
