@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "auto-skill"
 version = "3.0.0"
@@ -62,6 +66,10 @@ warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = false
 ignore_missing_imports = true
+
+[tool.setuptools.packages.find]
+include = ["commands*", "core*", "hooks*", "scripts*"]
+exclude = ["tests*", "examples*", "web*", "website*", "references*", "skills*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
