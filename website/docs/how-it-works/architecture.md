@@ -8,7 +8,7 @@ Auto-Skill follows a three-stage pipeline: **Observe → Detect → Forge**, wit
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│                  Claude Code Session                 │
+│                  Coding Agent Session                 │
 │  User works normally → tool calls happen             │
 └──────────────────────┬──────────────────────────────┘
                        │ PostToolUse hook
@@ -85,7 +85,7 @@ When enabled, the pipeline extends with external sources:
 
 ## Storage
 
-All data is local. No telemetry is sent anywhere.
+All data is local. Anonymous telemetry is opt-in with privacy-first defaults (see [Telemetry](/features/telemetry)).
 
 | Store | Location | Format |
 |-------|----------|--------|

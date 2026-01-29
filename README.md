@@ -1,8 +1,12 @@
+<p align="center">
+  <img src="website/static/img/favicon.svg" alt="Auto-Skill Logo" width="120" />
+</p>
+
 # Auto-Skill
 
 **Automatically learn from your workflows and turn them into intelligent, context-aware skills.**
 
-Auto-Skill observes your Claude Code sessions, detects repeated patterns, and generates reusable SKILL.md files. It combines local pattern detection with external skill discovery, multi-agent support, and anonymous telemetry.
+Auto-Skill observes your coding sessions across 10 supported agents, detects repeated patterns, and generates reusable SKILL.md files. Skills are automatically shared across all your installed agents. It combines local pattern detection with external skill discovery, cross-agent sharing, and anonymous telemetry.
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Docs](https://img.shields.io/badge/docs-Docusaurus-blue.svg)](https://MaTriXy.github.io/auto-skill)

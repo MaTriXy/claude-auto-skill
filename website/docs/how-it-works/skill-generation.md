@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # Skill Generation
 
-The Skill Forge (`core/skill_generator.py`) turns detected patterns into valid SKILL.md files compatible with Claude Code's skill system.
+The Skill Forge (`core/skill_generator.py`) turns detected patterns into valid SKILL.md files compatible with any supported coding agent's skill system.
 
 ## Output Format
 
@@ -87,7 +87,7 @@ Generated skills are written to:
 ~/.claude/skills/auto/{skill_name}.md
 ```
 
-They're immediately available to Claude Code's skill system but marked as `auto-generated: true` in the frontmatter for easy identification.
+They're immediately available to your coding agent's skill system and symlinked to all other detected agents. Skills are marked as `auto-generated: true` in the frontmatter for easy identification.
 
 ## Human Review
 

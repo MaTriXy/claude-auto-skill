@@ -34,7 +34,7 @@ auto-skill agents detect   # Show which agents are installed
 
 ## Cross-Agent Skill Sharing
 
-When a skill is generated, Auto-Skill creates symlinks in all detected agents' skill directories. This means a skill created in Claude Code is automatically available in Cursor, Codex, and any other installed agent.
+When a skill is generated, Auto-Skill creates symlinks in all detected agents' skill directories. This means a skill created in any agent is automatically available in all other installed agents — learn once, use everywhere.
 
 ```bash
 auto-skill agents list     # See all agents and their status

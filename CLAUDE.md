@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Auto-Skill** is a system that automatically generates Claude Code skills by observing workflow patterns, detecting repetition, and codifying successful procedures into reusable SKILL.md files. It enables Claude to learn from interactions and create skills autonomously, reducing manual skill creation.
+**Auto-Skill** is a system that automatically generates coding agent skills by observing workflow patterns, detecting repetition, and codifying successful procedures into reusable SKILL.md files. It supports 10 coding agents (Claude Code, Cursor, Codex, Aider, Windsurf, and more) with cross-agent skill sharing, enabling any agent to learn from interactions and create skills autonomously.
 
 **Install:** `npx skills add MaTriXy/auto-skill`
 
@@ -13,7 +13,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 The system follows a pipeline architecture with three main stages:
 
 ### 1. Observer (Event Capture)
-- Hooks into Claude Code's tool execution flow via `hooks/hooks.json`
+- Hooks into the coding agent's tool execution flow via `hooks/hooks.json`
 - Captures workflow events including tool calls, outcomes, and context
 - Stores events in a local SQLite database (`~/.claude/auto-skill/events.db`)
 - Implementation: `hooks/observer.py`
@@ -46,7 +46,7 @@ The system follows a pipeline architecture with three main stages:
 
 | Decision | Choice | Rationale |
 |----------|--------|-----------|
-| **Implementation** | Claude Code Plugin | Hooks for observation, skills for output |
+| **Implementation** | Agent Plugin | Hooks for observation, skills for output, cross-agent symlinks |
 | **Distribution** | `npx skills add` | Zero-install via Skills CLI |
 | **Detection scope** | Per-project + global | Project-specific patterns with cross-agent sharing |
 | **Confirmation model** | Always confirm before activation | Prevents unwanted or incorrect skills |
@@ -69,7 +69,7 @@ The system follows a pipeline architecture with three main stages:
 
 ## Technical Constraints
 
-- Must generate valid SKILL.md files compatible with Claude Code's skill system
+- Must generate valid SKILL.md files compatible with supported coding agents' skill systems
 - YAML frontmatter must include `name` and `description` at minimum
 - Auto-generated skills should be clearly marked (`auto-generated: true`)
 - Skills should track source sessions for debugging/refinement
@@ -77,7 +77,7 @@ The system follows a pipeline architecture with three main stages:
 
 ## Integration Points
 
-- **Claude Code Skills System**: Outputs compatible SKILL.md format
+- **Agent Skills System**: Outputs compatible SKILL.md format for 10 coding agents
 - **Skills CLI**: Installable via `npx skills add MaTriXy/auto-skill`
 - **Skills.sh**: External skill discovery and publishing
 - **Multi-Agent**: Supports 10 coding agents with cross-agent skill sharing via symlinks

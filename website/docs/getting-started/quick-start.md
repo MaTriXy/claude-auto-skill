@@ -8,7 +8,7 @@ Once you've [installed](/getting-started/installation) Auto-Skill and registered
 
 ## 1. Work Normally
 
-Use Claude Code as you always do. The observer hook silently records tool events (which tools were called, inputs, outcomes) into a local SQLite database.
+Use your coding agent as you always do. The observer hook silently records tool events (which tools were called, inputs, outcomes) into a local SQLite database.
 
 Every tool call generates an event like:
 

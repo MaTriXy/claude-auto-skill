@@ -4,27 +4,35 @@ sidebar_label: Introduction
 slug: /
 ---
 
+<p align="center">
+  <img src="/img/favicon.svg" alt="Auto-Skill Logo" width="120" />
+</p>
+
 # Auto-Skill
 
 [![Latest Release](https://img.shields.io/github/v/release/MaTriXy/auto-skill)](https://github.com/MaTriXy/auto-skill/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/MaTriXy/auto-skill/blob/main/LICENSE)
 
-**Automatically generate Claude Code skills by observing your workflow.**
+**Automatically generate skills for any coding agent by observing your workflow.**
 
-Auto-Skill watches how you work in Claude Code, detects repeated patterns, and turns them into reusable [SKILL.md](https://docs.anthropic.com/en/docs/claude-code/skills) files — so Claude learns from your habits without you having to write skills manually.
+> **v3.0 — Now universal.** Auto-Skill is no longer Claude Code-only. It supports 10 coding agents (Claude Code, Cursor, Codex, Aider, Windsurf, and more) with cross-agent skill sharing. A skill learned in one agent is instantly available in all others.
+
+Auto-Skill watches how you work across your coding agents, detects repeated patterns, and turns them into reusable [SKILL.md](https://docs.anthropic.com/en/docs/claude-code/skills) files — so your agents learn from your habits without you having to write skills manually.
 
 ## What It Does
 
-When you use Claude Code, you develop patterns. Maybe you always read a file, write tests, then implement — or you follow a specific debugging sequence. Auto-Skill captures these patterns and codifies them.
+When you use a coding agent, you develop patterns. Maybe you always read a file, write tests, then implement — or you follow a specific debugging sequence. Auto-Skill captures these patterns and codifies them.
 
 ```
-You work normally in Claude Code
+You work normally in your coding agent
         ↓
 Observer records tool usage (Read, Edit, Bash, etc.)
         ↓
 Detector finds repeated sequences across sessions
         ↓
 Forge generates a SKILL.md file
+        ↓
+Skills are shared across all your installed agents
         ↓
 You review and approve → skill is active
 ```

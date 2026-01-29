@@ -6,7 +6,7 @@ sidebar_position: 1
 
 ## Prerequisites
 
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed and working
+- At least one supported coding agent installed (Claude Code, Cursor, Codex, Aider, Windsurf, Cline, Amp, Continue, OpenCode, or GitHub Copilot)
 
 ## Install
 
@@ -38,7 +38,7 @@ This creates:
 
 ## Register Hooks
 
-Auto-Skill integrates with Claude Code through its [hook system](https://docs.anthropic.com/en/docs/claude-code/hooks). The hooks are defined in `hooks/hooks.json`:
+Auto-Skill integrates with coding agents through hook systems. For Claude Code, it uses the [hook system](https://docs.anthropic.com/en/docs/claude-code/hooks). The hooks are defined in `hooks/hooks.json`:
 
 ```json
 {
@@ -57,7 +57,7 @@ Auto-Skill integrates with Claude Code through its [hook system](https://docs.an
 }
 ```
 
-Copy or merge this into your Claude Code hooks configuration to start observing.
+Copy or merge this into your agent's hooks configuration to start observing.
 
 ## Verify
 
@@ -68,4 +68,4 @@ auto-skill version
 auto-skill stats
 ```
 
-You should see an empty stats output (no patterns detected yet). As you use Claude Code with the hooks active, patterns will start accumulating.
+You should see an empty stats output (no patterns detected yet). As you use your coding agent with the hooks active, patterns will start accumulating.

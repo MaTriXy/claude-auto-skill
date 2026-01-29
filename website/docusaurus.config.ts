@@ -4,8 +4,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Auto-Skill',
-  tagline: 'Automatically generate Claude Code skills from workflow patterns',
-  favicon: 'img/favicon.ico',
+  tagline: 'Automatically generate skills for any coding agent from workflow patterns',
+  favicon: 'img/favicon.svg',
 
   future: {
     v4: true,
@@ -55,6 +55,10 @@ const config: Config = {
     },
     navbar: {
       title: 'Auto-Skill',
+      logo: {
+        alt: 'Auto-Skill Logo',
+        src: 'img/favicon.svg',
+      },
       items: [
         {
           href: 'https://github.com/MaTriXy/auto-skill',
