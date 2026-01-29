@@ -5,7 +5,7 @@ slug: /
 ---
 
 <p align="center">
-  <img src={require('@site/static/img/logo.svg').default} alt="Auto-Skill Logo" width="120" />
+  <img src="/auto-skill/img/logo.svg" alt="Auto-Skill Logo" width="120" />
 </p>
 
 # Auto-Skill
