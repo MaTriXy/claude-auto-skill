@@ -2,8 +2,8 @@
   "name": "auto-skill",
   "version": "1.0.0",
   "description": "Automatically detect workflow patterns, generate skills, and load them dynamically mid-session",
-  "author": "Claude Auto-Skill",
-  "homepage": "https://github.com/anthropics/claude-auto-skill",
+  "author": "Auto-Skill",
+  "homepage": "https://github.com/MaTriXy/auto-skill",
   "hooks": "hooks/hooks.json",
   "commands": [
     "commands/review-patterns.md",

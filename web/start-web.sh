@@ -1,7 +1,7 @@
 #!/bin/bash
-# Start Claude Auto-Skill Web UI
+# Start Auto-Skill Web UI
 
-echo "🦦 Claude Auto-Skill Web UI"
+echo "🦦 Auto-Skill Web UI"
 echo "================================"
 echo ""
 

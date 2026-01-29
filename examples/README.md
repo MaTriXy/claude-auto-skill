@@ -1,6 +1,6 @@
 # Examples
 
-This directory contains examples demonstrating Claude Auto-Skill features.
+This directory contains examples demonstrating Auto-Skill features.
 
 ## Hybrid Discovery Example
 
@@ -19,7 +19,7 @@ Demonstrates the hybrid skill discovery system (Phase 1 & 2 of MAT-92):
 ### Run It
 
 ```bash
-cd ~/Dev/projects/claude-auto-skill
+cd ~/Dev/projects/auto-skill
 python3 examples/hybrid_discovery_example.py
 ```
 

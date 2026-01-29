@@ -4,14 +4,14 @@ sidebar_label: Introduction
 slug: /
 ---
 
-# Claude Auto-Skill
+# Auto-Skill
 
-[![Latest Release](https://img.shields.io/github/v/release/MaTriXy/claude-auto-skill)](https://github.com/MaTriXy/claude-auto-skill/releases/latest)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/MaTriXy/claude-auto-skill/blob/main/LICENSE)
+[![Latest Release](https://img.shields.io/github/v/release/MaTriXy/auto-skill)](https://github.com/MaTriXy/auto-skill/releases/latest)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/MaTriXy/auto-skill/blob/main/LICENSE)
 
 **Automatically generate Claude Code skills by observing your workflow.**
 
-Claude Auto-Skill watches how you work in Claude Code, detects repeated patterns, and turns them into reusable [SKILL.md](https://docs.anthropic.com/en/docs/claude-code/skills) files — so Claude learns from your habits without you having to write skills manually.
+Auto-Skill watches how you work in Claude Code, detects repeated patterns, and turns them into reusable [SKILL.md](https://docs.anthropic.com/en/docs/claude-code/skills) files — so Claude learns from your habits without you having to write skills manually.
 
 ## What It Does
 
@@ -47,7 +47,7 @@ You review and approve → skill is active
 - **[Anonymous Telemetry](features/telemetry)** — Privacy-first usage tracking
 - **[Path Security](features/security)** — Traversal prevention and spec compliance
 - **[Unified CLI](features/cli)** — `auto-skill` entry point with `--json` support
-- **PyPI Distribution** — `pip install claude-auto-skill`
+- **Skills CLI** — `npx skills add MaTriXy/auto-skill`
 
 ## How Confidence Works
 

@@ -1,1 +1,1 @@
-"""Tests for Claude Auto-Skill."""
+"""Tests for Auto-Skill."""

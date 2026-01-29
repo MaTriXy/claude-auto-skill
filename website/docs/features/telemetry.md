@@ -58,7 +58,7 @@ GitHub Actions, GitLab CI, CircleCI, Travis CI, Buildkite, Jenkins.
 - Fire-and-forget daemon threads (never blocks user workflow)
 - Silent failures (telemetry errors never surface to users)
 - 2-second HTTP timeout
-- Source: [`core/telemetry.py`](https://github.com/MaTriXy/claude-auto-skill/blob/main/core/telemetry.py)
+- Source: [`core/telemetry.py`](https://github.com/MaTriXy/auto-skill/blob/main/core/telemetry.py)
 
 ## Local Queries
 

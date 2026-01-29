@@ -6,40 +6,21 @@ sidebar_position: 1
 
 ## Prerequisites
 
-- Python 3.9+
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed and working
 
 ## Install
 
 ```bash
-# From PyPI (recommended)
-pip install claude-auto-skill
-
-# Or from source
-git clone https://github.com/MaTriXy/claude-auto-skill.git
-cd claude-auto-skill
-pip install -e .
+npx skills add MaTriXy/auto-skill
 ```
 
-This installs the core dependency (PyYAML) and registers the `auto-skill` CLI entry point.
+This uses the [Skills CLI](https://github.com/vercel-labs/skills) to install Auto-Skill directly into your coding agent. It auto-detects installed agents (Claude Code, Cursor, Codex, etc.) and sets up skills for you.
 
-### Optional: V2 Features
-
-For code structure analysis and enhanced pattern detection:
+You can also select specific skills during install:
 
 ```bash
-pip install -e ".[v2]"
-```
-
-This adds:
-- **pygls** — Language Server Protocol support
-- **tree-sitter** + language parsers — Multi-language AST analysis
-- **numpy** + **scikit-learn** — ML-based confidence scoring
-
-### Optional: Web UI
-
-```bash
-pip install -r web/requirements.txt
+npx skills add MaTriXy/auto-skill -s auto-skill-guide
+npx skills add MaTriXy/auto-skill -s skill-discovery
 ```
 
 ## Initialize

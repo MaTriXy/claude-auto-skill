@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Auto-Skill Initialization Command - Set up Auto-Skill for first use.
+Auto-Skill Initialization Command — Set up Auto-Skill for first use.
 
 Creates directories, config files, and provides setup guidance.
 
@@ -143,22 +143,25 @@ def print_next_steps():
     
     print("\n📚 Next Steps:\n")
     
-    print("1. **Start using Claude Code**")
+    print("1. **Install via Skills CLI** (if not already)")
+    print("   npx skills add MaTriXy/auto-skill\n")
+
+    print("2. **Start using Claude Code**")
     print("   - Work on your project as usual")
     print("   - Auto-Skill will record your tool usage\n")
     
-    print("2. **Optional: Set up Mental Model** (for semantic understanding)")
+    print("3. **Optional: Set up Mental Model** (for semantic understanding)")
     print("   cd your-project")
     print("   mental add domain Payment --desc 'Payment processing'")
     print("   mental add capability Checkout --operates-on Payment\n")
     
-    print("3. **Discover skills** (after working for a while)")
+    print("4. **Discover skills** (after working for a while)")
     print("   python -m commands.discover\n")
     
-    print("4. **Search external skills**")
+    print("5. **Search external skills**")
     print("   python -m commands.discover --search 'payment'\n")
     
-    print("5. **Track adoption**")
+    print("6. **Track adoption**")
     print("   python -m commands.discover --stats\n")
     
     print("📖 Documentation:")
@@ -167,7 +170,7 @@ def print_next_steps():
     print("   - examples/: Working examples\n")
     
     print("🔗 Useful Links:")
-    print("   - Repository: https://github.com/MaTriXy/claude-auto-skill")
+    print("   - Repository: https://github.com/MaTriXy/auto-skill")
     print("   - Mental Model: https://github.com/Michaelliv/mental")
     print("   - Skills.sh: https://skills.sh\n")
     
@@ -177,7 +180,7 @@ def print_next_steps():
 def init_command(args):
     """Initialize Auto-Skill directories and config."""
     print("\n" + "="*70)
-    print("🦦 Claude Auto-Skill - Initialization")
+    print("🦦 Auto-Skill - Initialization")
     print("="*70 + "\n")
     
     # Determine base directories
@@ -235,7 +238,7 @@ def init_command(args):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Initialize Claude Auto-Skill",
+        description="Initialize Auto-Skill",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:

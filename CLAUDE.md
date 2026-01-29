@@ -4,17 +4,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Claude Auto-Skill** is a system that automatically generates Claude Code skills by observing workflow patterns, detecting repetition, and codifying successful procedures into reusable SKILL.md files. The goal is to enable Claude to learn from interactions and create skills autonomously, reducing manual skill creation.
+**Auto-Skill** is a system that automatically generates Claude Code skills by observing workflow patterns, detecting repetition, and codifying successful procedures into reusable SKILL.md files. It enables Claude to learn from interactions and create skills autonomously, reducing manual skill creation.
+
+**Install:** `npx skills add MaTriXy/auto-skill`
 
 ## Architecture
 
 The system follows a pipeline architecture with three main stages:
 
 ### 1. Observer (Event Capture)
-- Hooks into Claude Code's tool execution flow
+- Hooks into Claude Code's tool execution flow via `hooks/hooks.json`
 - Captures workflow events including tool calls, outcomes, and context
-- Stores events in a local pattern database
-- Implementation: Hook system or MCP server receiving telemetry
+- Stores events in a local SQLite database (`~/.claude/auto-skill/events.db`)
+- Implementation: `hooks/observer.py`
 
 ### 2. Detector (Pattern Recognition)
 - Analyzes captured events for reusable patterns
@@ -24,12 +26,16 @@ The system follows a pipeline architecture with three main stages:
   - **User corrections**: User redirects Claude's approach
   - **Explicit teaching**: User provides domain knowledge
   - **Error recovery**: Successful self-correction patterns
+- Session analysis detects intent (debug, implement, refactor, test)
+- 18 design patterns recognized (MVC, TDD, Factory, etc.)
+- Implementation: `core/pattern_detector.py`, `core/session_analyzer.py`, `core/design_pattern_detector.py`
 
 ### 3. Skill Forge (Skill Generation)
 - Generates valid SKILL.md files from detected patterns
 - Auto-generates YAML frontmatter with metadata
 - Extracts procedural steps and embedded code
-- Stores skills in `~/.claude/skills/generated/` or `~/.claude/skills/auto/`
+- Stores skills in `~/.claude/skills/auto/`
+- Implementation: `core/skill_generator.py`
 
 ### Human-in-the-Loop
 - Skills require user confirmation before activation
@@ -40,19 +46,26 @@ The system follows a pipeline architecture with three main stages:
 
 | Decision | Choice | Rationale |
 |----------|--------|-----------|
-| **Implementation approach** | TBD: Plugin vs MCP vs Hybrid | Depends on access to Claude Code internals |
-| **Detection scope** | TBD: Per-project vs Global | Project-specific = relevance; Global = reuse |
+| **Implementation** | Claude Code Plugin | Hooks for observation, skills for output |
+| **Distribution** | `npx skills add` | Zero-install via Skills CLI |
+| **Detection scope** | Per-project + global | Project-specific patterns with cross-agent sharing |
 | **Confirmation model** | Always confirm before activation | Prevents unwanted or incorrect skills |
-| **Skill storage** | Local filesystem initially | Simplicity, matches existing skill system |
+| **Skill storage** | Local filesystem | Simplicity, matches existing skill system |
+| **External discovery** | Skills.sh + well-known | 27,000+ community skills, RFC 8615 endpoints |
 
-## Development Roadmap
+## File Structure
 
-1. **Observer Hook**: Build event capture mechanism
-2. **Pattern Grammar**: Define formal pattern matching rules
-3. **Detection Heuristics**: Implement pattern recognition
-4. **Skill Template Generator**: Auto-generate SKILL.md format
-5. **Confirmation UX**: User approval interface
-6. **Iteration**: Refine based on real-world usage
+```
+/core/               # Core modules (pattern detection, skill generation, telemetry)
+/core/providers/     # Pluggable skill source providers (local, skillssh, wellknown)
+/commands/           # CLI commands and slash command definitions
+/hooks/              # Event capture hooks (observer.py, hooks.json)
+/scripts/            # Utility scripts (skill registry, discovery)
+/skills/             # Plugin skills (SKILL.md files)
+/tests/              # Unit and integration tests
+/web/                # Web UI dashboard (Flask)
+/website/            # Documentation site (Docusaurus)
+```
 
 ## Technical Constraints
 
@@ -62,25 +75,26 @@ The system follows a pipeline architecture with three main stages:
 - Skills should track source sessions for debugging/refinement
 - Pattern detection must avoid false positives (high precision preferred)
 
-## File Structure (Planned)
-
-```
-/hooks/              # Event capture hooks
-/detector/           # Pattern recognition engine
-/forge/              # SKILL.md generation
-/storage/            # Pattern database
-/tests/              # Unit and integration tests
-```
-
 ## Integration Points
 
-- **Claude Code Skills System**: Must output compatible SKILL.md format
+- **Claude Code Skills System**: Outputs compatible SKILL.md format
+- **Skills CLI**: Installable via `npx skills add MaTriXy/auto-skill`
+- **Skills.sh**: External skill discovery and publishing
+- **Multi-Agent**: Supports 10 coding agents with cross-agent skill sharing via symlinks
 - **User Workflow**: Non-intrusive observation, confirmation-based activation
-- **Existing Skills**: Can reference or build upon manually-created skills
-- **Project Context**: May need to read project files to understand patterns
+
+## Development
+
+```bash
+git clone https://github.com/MaTriXy/auto-skill.git
+cd auto-skill
+uv sync --all-extras
+uv run pytest tests/ -v
+```
 
 ## References
 
-- Anthropic Engineering Blog: Future vision explicitly mentions autonomous skill creation
-- Claude Code Skills documentation: SKILL.md format and progressive disclosure
-- Planning document: `auto-skill-plan.md` contains detailed architecture proposals
+- [Skills CLI](https://github.com/vercel-labs/skills): `npx skills add` distribution
+- [Claude Code Skills docs](https://docs.anthropic.com/en/docs/claude-code/skills): SKILL.md format
+- [agentskills.io](https://agentskills.io): Skill spec compliance
+- [Skills.sh](https://skills.sh): Community skill registry

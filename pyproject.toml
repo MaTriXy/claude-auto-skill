@@ -1,9 +1,5 @@
-[build-system]
-requires = ["setuptools>=61.0", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
-name = "claude-auto-skill"
+name = "auto-skill"
 version = "3.0.0"
 description = "Automatically learn from your workflows and turn them into intelligent, context-aware skills"
 readme = "README.md"
@@ -11,19 +7,6 @@ authors = [
     {name = "MaTriXy"}
 ]
 license = {text = "MIT"}
-classifiers = [
-    "Development Status :: 4 - Beta",
-    "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "Topic :: Scientific/Engineering :: Artificial Intelligence",
-]
-keywords = ["claude", "ai", "skills", "automation", "patterns", "claude-code"]
 requires-python = ">=3.9"
 dependencies = [
     "PyYAML>=6.0",
@@ -45,27 +28,15 @@ dev = [
     "mypy>=1.0",
 ]
 all = [
-    "claude-auto-skill[v2,dev]",
+    "auto-skill[v2,dev]",
 ]
 
 [project.urls]
-Homepage = "https://github.com/MaTriXy/claude-auto-skill"
-Documentation = "https://MaTriXy.github.io/claude-auto-skill/"
-Repository = "https://github.com/MaTriXy/claude-auto-skill"
-Issues = "https://github.com/MaTriXy/claude-auto-skill/issues"
-Changelog = "https://github.com/MaTriXy/claude-auto-skill/blob/main/CHANGELOG.md"
-
-[project.scripts]
-auto-skill = "commands.cli:main"
-# Legacy entry points (deprecated, use `auto-skill <subcommand>` instead)
-auto-skill-init = "commands.init:main"
-auto-skill-discover = "commands.discover:main"
-
-[tool.setuptools]
-packages = ["core", "core.providers", "commands", "hooks", "scripts"]
-
-[tool.setuptools.package-data]
-"*" = ["*.md", "*.json", "*.yaml"]
+Homepage = "https://github.com/MaTriXy/auto-skill"
+Documentation = "https://MaTriXy.github.io/auto-skill/"
+Repository = "https://github.com/MaTriXy/auto-skill"
+Issues = "https://github.com/MaTriXy/auto-skill/issues"
+Changelog = "https://github.com/MaTriXy/auto-skill/blob/main/CHANGELOG.md"
 
 [tool.black]
 line-length = 100

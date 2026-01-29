@@ -32,7 +32,7 @@ from urllib.request import Request, urlopen
 
 TELEMETRY_ENDPOINT = "https://t.insightx.pro"
 TELEMETRY_VERSION = "3.0.0"
-TOOL_ID = "claude-auto-skill"
+TOOL_ID = "auto-skill"
 
 CI_VARS = [
     "CI", "GITHUB_ACTIONS", "GITLAB_CI", "CIRCLECI",

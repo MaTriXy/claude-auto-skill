@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Unified CLI for Claude Auto-Skill.
+Unified CLI for Auto-Skill.
 
 Usage:
     auto-skill init              # Initialize auto-skill
@@ -30,14 +30,14 @@ def _get_version() -> str:
     """Get the package version."""
     try:
         from importlib.metadata import version
-        return version("claude-auto-skill")
+        return version("auto-skill")
     except Exception:
         return "3.0.0"
 
 
 def version_command(args):
     """Show version."""
-    print(f"claude-auto-skill {_get_version()}")
+    print(f"auto-skill {_get_version()}")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -48,7 +48,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     parser = argparse.ArgumentParser(
         prog="auto-skill",
-        description="Claude Auto-Skill - Automatically learn and generate skills",
+        description="Auto-Skill - Automatically learn and generate skills",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
 

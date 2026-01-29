@@ -193,7 +193,7 @@ class SkillsShPublisher:
             'tags': metadata.get('tags', []),
             'compatible_agents': metadata.get('compatible-agents', ['claude-code']),
             'author': metadata.get('author', 'auto-skill'),
-            'source': 'claude-auto-skill',
+            'source': 'auto-skill',
             'confidence': metadata.get('confidence', 0.80)
         }
         

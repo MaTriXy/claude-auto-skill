@@ -1,4 +1,4 @@
-"""Claude Auto-Skill Core Modules."""
+"""Auto-Skill Core Modules."""
 
 from .path_security import sanitize_name, is_path_safe, is_safe_symlink, safe_write
 from .event_store import EventStore, ToolEvent

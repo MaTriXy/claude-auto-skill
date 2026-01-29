@@ -1,9 +1,9 @@
 ---
 name: auto-skill-guide
-description: Documentation for the Claude Auto-Skill plugin - automatic workflow pattern detection, skill generation, and dynamic loading
+description: Documentation for the Auto-Skill plugin - automatic workflow pattern detection, skill generation, and dynamic loading
 ---
 
-# Claude Auto-Skill Plugin
+# Auto-Skill Plugin
 
 This plugin automatically detects workflow patterns from your Claude Code sessions, generates reusable skills, and can load them dynamically mid-session.
 

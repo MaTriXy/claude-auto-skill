@@ -1,4 +1,4 @@
-"""Web UI for Claude Auto-Skill.
+"""Web UI for Auto-Skill.
 
 Provides:
 1. Skill browser (local + external)
@@ -369,7 +369,7 @@ def serve_static(filename):
 
 
 if __name__ == '__main__':
-    print("🦦 Claude Auto-Skill Web UI")
+    print("🦦 Auto-Skill Web UI")
     print(f"   Skills directory: {CONFIG['skills_dir']}")
     print(f"   Tracker database: {CONFIG['tracker_db']}")
     print()

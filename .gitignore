@@ -45,7 +45,7 @@ htmlcov/
 # Node / Docusaurus
 node_modules/
 
-# Claude Auto-Skill specific
+# Auto-Skill specific
 *.db
 *.db-journal
 .claude/

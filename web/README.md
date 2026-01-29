@@ -1,4 +1,4 @@
-# Claude Auto-Skill Web UI
+# Auto-Skill Web UI
 
 Beautiful visual interface for managing skills, tracking adoption, and publishing.
 
@@ -60,8 +60,8 @@ app.run(debug=True, host='0.0.0.0', port=3000)
 
 - Python 3.11+ (for modern type syntax)
 - Flask 3.0+
-- Claude Auto-Skill core modules
+- Auto-Skill core modules
 
 ## Documentation
 
-Full documentation: https://MaTriXy.github.io/claude-auto-skill/features/web-ui/
+Full documentation: https://MaTriXy.github.io/auto-skill/features/web-ui/

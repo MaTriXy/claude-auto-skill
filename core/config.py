@@ -1,5 +1,5 @@
 """
-Configuration management for Claude Auto-Skill.
+Configuration management for Auto-Skill.
 
 Handles default settings and project-specific overrides.
 """

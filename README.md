@@ -1,18 +1,16 @@
-# Claude Auto-Skill
+# Auto-Skill
 
 **Automatically learn from your workflows and turn them into intelligent, context-aware skills.**
 
-Claude Auto-Skill observes your Claude Code sessions, detects repeated patterns, and generates reusable SKILL.md files. It combines local pattern detection with external skill discovery, multi-agent support, and anonymous telemetry.
+Auto-Skill observes your Claude Code sessions, detects repeated patterns, and generates reusable SKILL.md files. It combines local pattern detection with external skill discovery, multi-agent support, and anonymous telemetry.
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/Python-3.9+-green.svg)](https://python.org)
-[![Docs](https://img.shields.io/badge/docs-Docusaurus-blue.svg)](https://MaTriXy.github.io/claude-auto-skill)
+[![Docs](https://img.shields.io/badge/docs-Docusaurus-blue.svg)](https://MaTriXy.github.io/auto-skill)
 
 ## Quick Start
 
 ```bash
-pip install claude-auto-skill
-auto-skill init
+npx skills add MaTriXy/auto-skill
 ```
 
 Once installed, the plugin automatically:
@@ -57,15 +55,15 @@ All commands support `--json` output.
 
 ## Documentation
 
-**Full documentation: [https://MaTriXy.github.io/claude-auto-skill](https://MaTriXy.github.io/claude-auto-skill)**
+**Full documentation: [https://MaTriXy.github.io/auto-skill](https://MaTriXy.github.io/auto-skill)**
 
 ## Development
 
 ```bash
-git clone https://github.com/MaTriXy/claude-auto-skill.git
-cd claude-auto-skill
-pip install -e ".[dev]"
-pytest tests/ -v
+git clone https://github.com/MaTriXy/auto-skill.git
+cd auto-skill
+uv sync --all-extras
+uv run pytest tests/ -v
 ```
 
 ## Telemetry
@@ -85,4 +83,4 @@ MIT License - see [LICENSE](LICENSE)
 
 ---
 
-**Version 3.0.0** | [Repository](https://github.com/MaTriXy/claude-auto-skill) | [Issues](https://github.com/MaTriXy/claude-auto-skill/issues) | [Changelog](CHANGELOG.md)
+**Version 3.0.0** | [Repository](https://github.com/MaTriXy/auto-skill) | [Issues](https://github.com/MaTriXy/auto-skill/issues) | [Changelog](CHANGELOG.md)

@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to Claude Auto-Skill will be documented in this file.
+All notable changes to Auto-Skill will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🎉 Major Release: V2 - Session Analysis, LSP Integration & Design Patterns
 
-Claude Auto-Skill V2 is a **major enhancement** that transforms the plugin from a simple pattern detector into an intelligent learning system. V2 adds context awareness, code structure understanding, and design pattern recognition while maintaining **100% backward compatibility** with V1.
+Auto-Skill V2 is a **major enhancement** that transforms the plugin from a simple pattern detector into an intelligent learning system. V2 adds context awareness, code structure understanding, and design pattern recognition while maintaining **100% backward compatibility** with V1.
 
 ### ✨ Added
 
@@ -148,7 +148,7 @@ Claude Auto-Skill V2 is a **major enhancement** that transforms the plugin from 
 
 ### 🎉 Initial Release: V1 - Auto-Detection and Skill Generation
 
-The first version of Claude Auto-Skill, providing automatic workflow learning from Claude Code sessions.
+The first version of Auto-Skill, providing automatic workflow learning from Claude Code sessions.
 
 ### ✨ Added
 

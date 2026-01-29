@@ -3,7 +3,7 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Claude Auto-Skill',
+  title: 'Auto-Skill',
   tagline: 'Automatically generate Claude Code skills from workflow patterns',
   favicon: 'img/favicon.ico',
 
@@ -12,10 +12,10 @@ const config: Config = {
   },
 
   url: 'https://MaTriXy.github.io',
-  baseUrl: '/claude-auto-skill/',
+  baseUrl: '/auto-skill/',
 
   organizationName: 'MaTriXy',
-  projectName: 'claude-auto-skill',
+  projectName: 'auto-skill',
 
   onBrokenLinks: 'throw',
 
@@ -38,7 +38,7 @@ const config: Config = {
           routeBasePath: '/',
           sidebarPath: './sidebars.ts',
           editUrl:
-            'https://github.com/MaTriXy/claude-auto-skill/tree/main/website/',
+            'https://github.com/MaTriXy/auto-skill/tree/main/website/',
         },
         blog: false,
         pages: false,
@@ -54,10 +54,10 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'Claude Auto-Skill',
+      title: 'Auto-Skill',
       items: [
         {
-          href: 'https://github.com/MaTriXy/claude-auto-skill',
+          href: 'https://github.com/MaTriXy/auto-skill',
           label: 'GitHub',
           position: 'right',
         },
@@ -80,7 +80,7 @@ const config: Config = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/MaTriXy/claude-auto-skill',
+              href: 'https://github.com/MaTriXy/auto-skill',
             },
           ],
         },

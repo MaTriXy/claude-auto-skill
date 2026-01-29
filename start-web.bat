@@ -1,7 +1,7 @@
 @echo off
-REM Start Claude Auto-Skill Web UI (Windows)
+REM Start Auto-Skill Web UI (Windows)
 
-echo 🦦 Claude Auto-Skill Web UI
+echo 🦦 Auto-Skill Web UI
 echo ================================
 echo.
 
