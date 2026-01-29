@@ -114,7 +114,7 @@ Uploading aiskill-3.0.1.tar.gz
 100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 106.3/106.3 kB • 00:00
 
 View at:
-https://pypi.org/project/aiskill/3.0.0/
+https://pypi.org/project/aiskill/3.0.1/
 ```
 
 ### Step 6: Verify Installation
@@ -130,7 +130,7 @@ pip install aiskill
 
 # Verify
 auto-skill version
-# auto-skill 3.0.0
+# auto-skill 3.0.1
 ```
 
 ## After Publishing
@@ -190,19 +190,19 @@ bash ~/.agents/skills/auto-skill-guide/install-cli.sh
 
 Tag the release:
 ```bash
-git tag v3.0.0
-git push origin v3.0.0
+git tag v3.0.1
+git push origin v3.0.1
 ```
 
 Create release on GitHub with:
-- Title: `v3.0.0 - PyPI Release`
+- Title: `v3.0.1 - PyPI Release`
 - Description: Link to PyPI package
 - Attach dist files
 
 ## Troubleshooting
 
 ### "Package already exists"
-If version 3.0.0 is already published, bump the version:
+If version 3.0.1 is already published, bump the version:
 1. Update version in `pyproject.toml`
 2. Rebuild: `python -m build`
 3. Upload new version
