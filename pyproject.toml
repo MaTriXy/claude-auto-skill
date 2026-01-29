@@ -31,6 +31,9 @@ all = [
     "auto-skill[v2,dev]",
 ]
 
+[project.scripts]
+auto-skill = "commands.cli:main"
+
 [project.urls]
 Homepage = "https://github.com/MaTriXy/auto-skill"
 Documentation = "https://MaTriXy.github.io/auto-skill/"
