@@ -98,4 +98,4 @@ MIT License - see [LICENSE](LICENSE)
 
 ---
 
-**Version 3.0.1** | [Repository](https://github.com/MaTriXy/auto-skill) | [Issues](https://github.com/MaTriXy/auto-skill/issues) | [Changelog](CHANGELOG.md)
+**Version 3.0.2** | [Repository](https://github.com/MaTriXy/auto-skill) | [Issues](https://github.com/MaTriXy/auto-skill/issues) | [Changelog](CHANGELOG.md)

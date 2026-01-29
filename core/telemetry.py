@@ -31,7 +31,7 @@ from urllib.request import Request, urlopen
 # --- Anonymous Telemetry Configuration ---
 
 TELEMETRY_ENDPOINT = "https://t.insightx.pro"
-TELEMETRY_VERSION = "3.0.1"
+TELEMETRY_VERSION = "3.0.2"
 TOOL_ID = "auto-skill"
 
 CI_VARS = [

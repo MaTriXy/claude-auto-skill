@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "aiskill"
-version = "3.0.1"
+version = "3.0.2"
 description = "Automatically learn from your workflows and turn them into intelligent, context-aware skills"
 readme = "README.md"
 authors = [
@@ -17,7 +17,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-v2 = [
+advanced = [
     "pygls>=1.3.0",
     "tree-sitter>=0.21.0",
     "tree-sitter-python",
@@ -32,7 +32,7 @@ dev = [
     "mypy>=1.0",
 ]
 all = [
-    "aiskill[v2,dev]",
+    "aiskill[advanced,dev]",
 ]
 
 [project.scripts]

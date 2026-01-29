@@ -30,9 +30,9 @@ def _get_version() -> str:
     """Get the package version."""
     try:
         from importlib.metadata import version
-        return version("auto-skill")
+        return version("aiskill")
     except Exception:
-        return "3.0.1"
+        return "3.0.2"
 
 
 def version_command(args):

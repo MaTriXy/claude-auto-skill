@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.0.2] - 2025-01-29
+
+### Fixed
+- **pip install crash** — Renamed `v2` optional extra to `advanced` to fix `InvalidVersion: ''` error with `packaging` 25.0 (bundled in pip 25.3). The extra name `v2` was parsed as a PEP 440 version, causing marker evaluation to fail.
+- **CLI entry point** — Added missing `__init__.py` to `commands/`, `hooks/`, and `scripts/` packages so the `auto-skill` console script works after `pip install aiskill`.
+- **Version lookup** — Fixed `_get_version()` to look up the correct package name `aiskill` instead of `auto-skill`.
+
+---
+
 ## [2.0.0] - 2025-01-26
 
 ### 🎉 Major Release: V2 - Session Analysis, LSP Integration & Design Patterns
@@ -262,7 +271,8 @@ The first version of Auto-Skill, providing automatic workflow learning from Clau
 
 | Version | Release Date | Key Features | Status |
 |---------|--------------|--------------|--------|
-| **2.0.0** | 2025-01-26 | Session analysis, LSP, design patterns | ✅ Current |
+| **3.0.2** | 2025-01-29 | Fix pip install, CLI entry point | ✅ Current |
+| **2.0.0** | 2025-01-26 | Session analysis, LSP, design patterns | ✅ Stable |
 | **1.0.0** | 2024-XX-XX | Auto-detection, skill generation | ✅ Stable |
 
 ---
@@ -287,4 +297,4 @@ See `LICENSE` file for details.
 ---
 
 *Changelog maintained according to [Keep a Changelog](https://keepachangelog.com/) format*  
-*Last updated: January 26, 2025*
+*Last updated: January 29, 2025*
