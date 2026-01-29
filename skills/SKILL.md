@@ -7,6 +7,26 @@ description: Documentation for the Auto-Skill plugin - automatic workflow patter
 
 This plugin automatically detects workflow patterns from your Claude Code sessions, generates reusable skills, and can load them dynamically mid-session.
 
+## ⚙️ CLI Tool Installation
+
+The agent skills are now installed, but to use CLI commands like `auto-skill init`, `auto-skill discover`, etc., you need to install the Python package.
+
+**Quick Install:**
+```bash
+# Option 1: Run the included install script
+bash ~/.agents/skills/auto-skill-guide/install-cli.sh
+
+# Option 2: Install directly with uv (recommended)
+uv pip install git+https://github.com/MaTriXy/auto-skill.git
+
+# Option 3: Install with pip
+pip install git+https://github.com/MaTriXy/auto-skill.git
+```
+
+**Verify:** `auto-skill version`
+
+---
+
 ## How It Works
 
 ```
