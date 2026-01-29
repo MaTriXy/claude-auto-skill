@@ -1,0 +1,14 @@
+{
+  "hooks": [
+    {
+      "type": "PostToolUse",
+      "command": "node \"$CLAUDE_PROJECT_ROOT/dist/hooks/observer.js\" record",
+      "description": "Record tool usage events for pattern detection"
+    },
+    {
+      "type": "Stop",
+      "command": "node \"$CLAUDE_PROJECT_ROOT/dist/hooks/observer.js\" analyze",
+      "description": "Analyze session for patterns when Claude stops"
+    }
+  ]
+}

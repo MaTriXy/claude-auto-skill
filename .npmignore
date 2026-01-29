@@ -1,0 +1,34 @@
+# Source
+src/
+tests/
+*.test.ts
+
+# Config
+tsconfig.json
+vitest.config.ts
+.eslintrc.*
+.prettierrc*
+
+# Dev
+.github/
+.vscode/
+.claude/
+MIGRATION_PLAN.md
+CLAUDE.md
+
+# Python (legacy)
+*.py
+*.pyc
+__pycache__/
+*.egg-info/
+pyproject.toml
+uv.lock
+requirements*.txt
+setup.cfg
+
+# Other
+.git/
+.DS_Store
+*.log
+coverage/
+node_modules/
