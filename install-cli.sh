@@ -62,7 +62,7 @@ if [[ $INSTALL =~ ^[Yy]$ ]]; then
     echo ""
     echo "Installing auto-skill CLI..."
     
-    REPO_URL="git+https://github.com/MaTriXy/auto-skill.git"
+    REPO_URL="aiskill"
     
     if [ "$HAS_UV" = true ]; then
         # Check if we're in a venv
@@ -110,9 +110,9 @@ else
     echo ""
     echo "To install later, run:"
     if [ "$HAS_UV" = true ]; then
-        echo "  uv pip install git+https://github.com/MaTriXy/auto-skill.git"
+        echo "  uv pip install aiskill"
     else
-        echo "  pip install git+https://github.com/MaTriXy/auto-skill.git"
+        echo "  pip install aiskill"
     fi
     echo ""
     echo "Or set AUTO_SKILL_AUTO_INSTALL=true to auto-install next time."

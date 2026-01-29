@@ -3,8 +3,8 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "auto-skill"
-version = "3.0.0"
+name = "aiskill"
+version = "3.0.1"
 description = "Automatically learn from your workflows and turn them into intelligent, context-aware skills"
 readme = "README.md"
 authors = [
@@ -32,7 +32,7 @@ dev = [
     "mypy>=1.0",
 ]
 all = [
-    "auto-skill[v2,dev]",
+    "aiskill[v2,dev]",
 ]
 
 [project.scripts]

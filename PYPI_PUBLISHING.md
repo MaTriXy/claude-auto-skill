@@ -3,8 +3,8 @@
 ## ✅ Package Ready for Publishing
 
 **Build Status:** ✅ Success
-- Wheel: `auto_skill-3.0.0-py3-none-any.whl` (102K)
-- Source: `auto_skill-3.0.0.tar.gz` (106K)
+- Wheel: `aiskill-3.0.1-py3-none-any.whl` (102K)
+- Source: `aiskill-3.0.1.tar.gz` (106K)
 - Twine Check: ✅ PASSED
 - CLI Test: ✅ Works (`auto-skill version`)
 
@@ -70,7 +70,7 @@ python -m build
 
 **Expected output:**
 ```
-Successfully built auto_skill-3.0.0.tar.gz and auto_skill-3.0.0-py3-none-any.whl
+Successfully built aiskill-3.0.1.tar.gz and aiskill-3.0.1-py3-none-any.whl
 ```
 
 ### Step 3: Verify Package
@@ -81,8 +81,8 @@ twine check dist/*
 
 **Expected:**
 ```
-Checking dist/auto_skill-3.0.0-py3-none-any.whl: PASSED
-Checking dist/auto_skill-3.0.0.tar.gz: PASSED
+Checking dist/aiskill-3.0.1-py3-none-any.whl: PASSED
+Checking dist/aiskill-3.0.1.tar.gz: PASSED
 ```
 
 ### Step 4: Test on TestPyPI (Recommended)
@@ -92,7 +92,7 @@ Checking dist/auto_skill-3.0.0.tar.gz: PASSED
 twine upload --repository testpypi dist/*
 
 # Test installation from TestPyPI
-pip install --index-url https://test.pypi.org/simple/ auto-skill
+pip install --index-url https://test.pypi.org/simple/ aiskill
 
 # Verify
 auto-skill version
@@ -108,13 +108,13 @@ twine upload dist/*
 You'll see:
 ```
 Uploading distributions to https://upload.pypi.org/legacy/
-Uploading auto_skill-3.0.0-py3-none-any.whl
+Uploading aiskill-3.0.1-py3-none-any.whl
 100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 102.5/102.5 kB • 00:00
-Uploading auto_skill-3.0.0.tar.gz
+Uploading aiskill-3.0.1.tar.gz
 100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 106.3/106.3 kB • 00:00
 
 View at:
-https://pypi.org/project/auto-skill/3.0.0/
+https://pypi.org/project/aiskill/3.0.0/
 ```
 
 ### Step 6: Verify Installation
@@ -126,7 +126,7 @@ python -m venv test-install
 source test-install/bin/activate
 
 # Install from PyPI
-pip install auto-skill
+pip install aiskill
 
 # Verify
 auto-skill version
@@ -143,7 +143,7 @@ auto-skill version
 
 ### Quick Install (PyPI)
 \`\`\`bash
-pip install auto-skill
+pip install aiskill
 \`\`\`
 
 ### For Agent Skills
@@ -157,7 +157,7 @@ npx skills add MaTriXy/auto-skill
 npx skills add MaTriXy/auto-skill
 
 # 2. Install CLI tool
-pip install auto-skill
+pip install aiskill
 
 # 3. Verify
 auto-skill version
@@ -176,10 +176,10 @@ REPO_URL="auto-skill"  # Instead of git+https://...
 
 \`\`\`bash
 # Option 1: Install from PyPI (recommended)
-pip install auto-skill
+pip install aiskill
 
 # Option 2: With uv
-uv pip install auto-skill
+uv pip install aiskill
 
 # Option 3: Run the included install script
 bash ~/.agents/skills/auto-skill-guide/install-cli.sh
@@ -257,8 +257,8 @@ Add `PYPI_API_TOKEN` to GitHub repository secrets.
 
 ## Post-Publishing Checklist
 
-- [ ] Package appears on PyPI: https://pypi.org/project/auto-skill/
-- [ ] `pip install auto-skill` works
+- [ ] Package appears on PyPI: https://pypi.org/project/aiskill/
+- [ ] `pip install aiskill` works
 - [ ] CLI command `auto-skill version` works
 - [ ] README.md updated with PyPI install instructions
 - [ ] install-cli.sh updated to use PyPI

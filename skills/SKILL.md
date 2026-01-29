@@ -16,11 +16,11 @@ The agent skills are now installed, but to use CLI commands like `auto-skill ini
 # Option 1: Run the included install script
 bash ~/.agents/skills/auto-skill-guide/install-cli.sh
 
-# Option 2: Install directly with uv (recommended)
-uv pip install git+https://github.com/MaTriXy/auto-skill.git
+# Option 2: Install from PyPI with uv (recommended)
+uv pip install aiskill
 
-# Option 3: Install with pip
-pip install git+https://github.com/MaTriXy/auto-skill.git
+# Option 3: Install from PyPI with pip
+pip install aiskill
 ```
 
 **Verify:** `auto-skill version`
