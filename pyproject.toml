@@ -1,6 +1,10 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "auto-skill"
-version = "3.0.0"
+name = "aiskill"
+version = "3.0.1"
 description = "Automatically learn from your workflows and turn them into intelligent, context-aware skills"
 readme = "README.md"
 authors = [
@@ -28,8 +32,11 @@ dev = [
     "mypy>=1.0",
 ]
 all = [
-    "auto-skill[v2,dev]",
+    "aiskill[v2,dev]",
 ]
+
+[project.scripts]
+auto-skill = "commands.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/MaTriXy/auto-skill"
@@ -59,6 +66,10 @@ warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = false
 ignore_missing_imports = true
+
+[tool.setuptools.packages.find]
+include = ["commands*", "core*", "hooks*", "scripts*"]
+exclude = ["tests*", "examples*", "web*", "website*", "references*", "skills*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

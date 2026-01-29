@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="website/static/img/logo.svg" alt="Auto-Skill Logo" width="120" />
+  <img src="https://raw.githubusercontent.com/MaTriXy/auto-skill/main/website/static/img/logo.png" alt="Auto-Skill Logo" width="120" />
 </p>
 
 # Auto-Skill
@@ -87,4 +87,4 @@ MIT License - see [LICENSE](LICENSE)
 
 ---
 
-**Version 3.0.0** | [Repository](https://github.com/MaTriXy/auto-skill) | [Issues](https://github.com/MaTriXy/auto-skill/issues) | [Changelog](CHANGELOG.md)
+**Version 3.0.1** | [Repository](https://github.com/MaTriXy/auto-skill) | [Issues](https://github.com/MaTriXy/auto-skill/issues) | [Changelog](CHANGELOG.md)

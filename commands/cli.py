@@ -32,7 +32,7 @@ def _get_version() -> str:
         from importlib.metadata import version
         return version("auto-skill")
     except Exception:
-        return "3.0.0"
+        return "3.0.1"
 
 
 def version_command(args):
