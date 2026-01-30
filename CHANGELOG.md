@@ -7,6 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+
+## [4.0.0] - 2025-01-30
+
+### Major Release: Complete Node.js/TypeScript Migration
+
+Auto-Skill has been completely rewritten from Python to TypeScript/Node.js.
+
+### Changed
+- **Runtime**: Python 3.9+ → Node.js 18+ (TypeScript)
+- **Package**: `pip install aiskill` → `npm install -g @matrixy/auto-skill`
+- **Storage**: Python sqlite3 → better-sqlite3 with FTS5
+- **Web UI**: Flask → Hono
+- **CLI**: Python argparse → Commander
+- **Tests**: pytest → Vitest
+- **Build**: setuptools/pyproject.toml → tsc (TypeScript compiler)
+- **CI**: Python matrix → Node.js 18/20/22 matrix across ubuntu/macos/windows
+- **IDs**: UUID → ULID
+
+### Added
+- MCP server (stdio + HTTP) for tool integration
+- Content-addressable skill storage (SHA-256)
+- Atomic file writes with temp file + rename
+- WAL journal mode for SQLite
+- ESLint configuration for TypeScript
+
+### Removed
+- Python runtime dependency
+- scikit-learn, numpy, pygls dependencies
+- PyPI publishing (replaced by npm)
+
 ## [3.0.2] - 2025-01-29
 
 ### Fixed
@@ -271,7 +301,8 @@ The first version of Auto-Skill, providing automatic workflow learning from Clau
 
 | Version | Release Date | Key Features | Status |
 |---------|--------------|--------------|--------|
-| **3.0.2** | 2025-01-29 | Fix pip install, CLI entry point | ✅ Current |
+| **4.0.0** | 2025-01-30 | Complete Node.js/TypeScript migration | ✅ Current |
+| **3.0.2** | 2025-01-29 | Fix pip install, CLI entry point | ✅ Previous |
 | **2.0.0** | 2025-01-26 | Session analysis, LSP, design patterns | ✅ Stable |
 | **1.0.0** | 2024-XX-XX | Auto-detection, skill generation | ✅ Stable |
 
@@ -297,4 +328,4 @@ See `LICENSE` file for details.
 ---
 
 *Changelog maintained according to [Keep a Changelog](https://keepachangelog.com/) format*  
-*Last updated: January 29, 2025*
+*Last updated: January 30, 2025*

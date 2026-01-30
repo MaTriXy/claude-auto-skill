@@ -16,7 +16,7 @@ The system follows a pipeline architecture with three main stages:
 - Hooks into the coding agent's tool execution flow via `hooks/hooks.json`
 - Captures workflow events including tool calls, outcomes, and context
 - Stores events in a local SQLite database (`~/.claude/auto-skill/events.db`)
-- Implementation: `hooks/observer.py`
+- Implementation: `src/hooks/observer.ts`
 
 ### 2. Detector (Pattern Recognition)
 - Analyzes captured events for reusable patterns
@@ -28,14 +28,14 @@ The system follows a pipeline architecture with three main stages:
   - **Error recovery**: Successful self-correction patterns
 - Session analysis detects intent (debug, implement, refactor, test)
 - 18 design patterns recognized (MVC, TDD, Factory, etc.)
-- Implementation: `core/pattern_detector.py`, `core/session_analyzer.py`, `core/design_pattern_detector.py`
+- Implementation: `src/core/pattern-detector.ts`, `src/core/session-analyzer.ts`, `src/core/design-pattern-detector.ts`
 
 ### 3. Skill Forge (Skill Generation)
 - Generates valid SKILL.md files from detected patterns
 - Auto-generates YAML frontmatter with metadata
 - Extracts procedural steps and embedded code
 - Stores skills in `~/.claude/skills/auto/`
-- Implementation: `core/skill_generator.py`
+- Implementation: `src/core/skill-generator.ts`
 
 ### Human-in-the-Loop
 - Skills require user confirmation before activation
@@ -56,14 +56,17 @@ The system follows a pipeline architecture with three main stages:
 ## File Structure
 
 ```
-/core/               # Core modules (pattern detection, skill generation, telemetry)
-/core/providers/     # Pluggable skill source providers (local, skillssh, wellknown)
-/commands/           # CLI commands and slash command definitions
-/hooks/              # Event capture hooks (observer.py, hooks.json)
-/scripts/            # Utility scripts (skill registry, discovery)
+/src/                # TypeScript source code
+/src/core/           # Core modules (pattern detection, skill generation, telemetry)
+/src/core/providers/ # Pluggable skill source providers (local, skillssh, wellknown)
+/src/cli/            # CLI commands (Commander)
+/src/hooks/          # Event capture hooks
+/src/mcp/            # MCP server (stdio + HTTP)
+/src/web/            # Web UI (Hono)
+/src/formatter/      # Output formatting
+/bin/                # CLI entry point
+/tests/              # Vitest tests
 /skills/             # Plugin skills (SKILL.md files)
-/tests/              # Unit and integration tests
-/web/                # Web UI dashboard (Flask)
 /website/            # Documentation site (Docusaurus)
 ```
 
@@ -88,8 +91,8 @@ The system follows a pipeline architecture with three main stages:
 ```bash
 git clone https://github.com/MaTriXy/auto-skill.git
 cd auto-skill
-uv sync --all-extras
-uv run pytest tests/ -v
+npm install
+npm test
 ```
 
 ## References

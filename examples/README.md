@@ -4,7 +4,7 @@ This directory contains examples demonstrating Auto-Skill features.
 
 ## Hybrid Discovery Example
 
-**File:** `hybrid_discovery_example.py`
+**File:** `hybrid_discovery_example.ts`
 
 Demonstrates the hybrid skill discovery system (Phase 1 & 2 of MAT-92):
 
@@ -20,7 +20,7 @@ Demonstrates the hybrid skill discovery system (Phase 1 & 2 of MAT-92):
 
 ```bash
 cd ~/Dev/projects/auto-skill
-python3 examples/hybrid_discovery_example.py
+npx tsx examples/hybrid_discovery_example.ts
 ```
 
 ### What It Does
@@ -59,7 +59,7 @@ Graduation criteria met:
 ## More Examples Coming
 
 Future examples will cover:
-- V2 session analysis
-- LSP code structure detection
+- Session analysis
+- Code structure detection
 - Design pattern recognition
 - Custom skill generation

@@ -45,12 +45,12 @@ Auto-Skill integrates with coding agents through hook systems. For Claude Code, 
   "hooks": [
     {
       "type": "PostToolUse",
-      "command": "python3 observer.py record",
+      "command": "node observer.js record",
       "description": "Record tool usage events"
     },
     {
       "type": "Stop",
-      "command": "python3 observer.py analyze",
+      "command": "node observer.js analyze",
       "description": "Analyze patterns when Claude stops"
     }
   ]

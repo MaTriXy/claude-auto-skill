@@ -24,15 +24,13 @@ When invoked, analyze the user's intent and perform the appropriate action:
 If no arguments or `action=list`:
 
 1. Import and use the pattern detection system:
-   ```python
-   import sys
-   sys.path.insert(0, "$CLAUDE_PROJECT_ROOT")
-   from core.event_store import EventStore
-   from core.pattern_detector import PatternDetector
+   ```typescript
+   import { createEventStore } from "../src/core/db";
+   import { createPatternDetector } from "../src/core/patternDetector";
 
-   store = EventStore()
-   detector = PatternDetector(store)
-   patterns = detector.get_pending_patterns(min_confidence=0.6)
+   const store = createEventStore();
+   const detector = createPatternDetector(store);
+   const patterns = detector.getPendingPatterns({ minConfidence: 0.6 });
    ```
 
 2. Display detected patterns in a clear format:
@@ -62,10 +60,10 @@ If `action=approve` with a pattern-id:
 
 1. Load the specific pattern
 2. Generate the skill candidate using:
-   ```python
-   from core.skill_generator import SkillGenerator
-   generator = SkillGenerator()
-   candidate = generator.generate_candidate(pattern)
+   ```typescript
+   import { createSkillGenerator } from "../src/core/skillGenerator";
+   const generator = createSkillGenerator();
+   const candidate = generator.generateCandidate(pattern);
    ```
 
 3. **Show the auto-detected execution context**:
@@ -85,7 +83,7 @@ If `action=approve` with a pattern-id:
 6. Confirm creation and show the path
 7. **Inject the skill into the current session** by running:
    ```bash
-   python scripts/get_skill.py "<skill-name>"
+   auto-skill load "<skill-name>"
    ```
    Display the output directly - this makes the skill immediately active without requiring a session restart. The delimited format signals these are instructions to follow.
 

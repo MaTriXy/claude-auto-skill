@@ -24,7 +24,7 @@ Skills in Claude Code are normally discovered at session start. This command byp
 If no skill name is provided, list all available auto-generated skills:
 
 ```bash
-python scripts/list_skills.py
+auto-skill discover
 ```
 
 Display the output to the user so they can choose which skill to load.
@@ -33,17 +33,17 @@ Display the output to the user so they can choose which skill to load.
 If the user wants to find skills by intent:
 
 ```bash
-python scripts/search_skills.py "<user's search query>"
+auto-skill search "<user's search query>"
 ```
 
 ### Load a Specific Skill
 When a skill name is provided:
 
 ```bash
-python scripts/get_skill.py "<skill-name>"
+auto-skill load "<skill-name>"
 ```
 
-**IMPORTANT**: The output from `get_skill.py` contains the skill instructions wrapped in clear delimiters (`======`). You should:
+**IMPORTANT**: The output from the `auto-skill load` command contains the skill instructions wrapped in clear delimiters (`======`). You should:
 1. Display this output directly to the user
 2. Treat the content between the delimiters as **active instructions** you should follow when relevant
 3. Confirm to the user that the skill is now loaded

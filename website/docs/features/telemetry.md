@@ -24,8 +24,8 @@ Anonymous, aggregate metrics only:
 | Timing | `45ms` | Performance |
 | Outcome | `success` / `failure` | Reliability |
 | Agent name | `claude-code` | Compatibility |
-| System info | `darwin`, `python 3.12` | Compatibility |
-| Tool version | `3.0.2` | Adoption |
+| System info | `darwin`, `node 22` | Compatibility |
+| Tool version | `4.0.0` | Adoption |
 
 ## What We Do NOT Collect
 
@@ -55,10 +55,10 @@ GitHub Actions, GitLab CI, CircleCI, Travis CI, Buildkite, Jenkins.
 
 ## Implementation
 
-- Fire-and-forget daemon threads (never blocks user workflow)
+- Async fire-and-forget (never blocks user workflow)
 - Silent failures (telemetry errors never surface to users)
 - 2-second HTTP timeout
-- Source: [`core/telemetry.py`](https://github.com/MaTriXy/auto-skill/blob/main/core/telemetry.py)
+- Source: [`src/core/telemetry.ts`](https://github.com/MaTriXy/auto-skill/blob/main/src/core/telemetry.ts)
 
 ## Local Queries
 
