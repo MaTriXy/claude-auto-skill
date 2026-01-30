@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Auto-Skill has been completely rewritten from Python to TypeScript/Node.js.
 
+#### Why we're moving to Node.js
+
+To help Auto-Skill grow, we've decided to move our codebase to Node.js. This switch solves recent packaging challenges and opens the door for smoother integrations with your favorite tools. It also allows us to implement exciting features we've been wanting to bring to the project, making the tool easier for everyone to adopt and extend.
+
 ### Changed
 - **Runtime**: Python 3.9+ → Node.js 18+ (TypeScript)
 - **Package**: `pip install aiskill` → `npm install -g @matrixy/auto-skill`
