@@ -11,7 +11,6 @@
     "auto-skill": "bin/auto-skill.js"
   },
   "scripts": {
-    "prebuild": "rm -rf dist/*.whl dist/*.tar.gz dist/*.egg-info",
     "build": "tsc",
     "test": "vitest run",
     "test:watch": "vitest",
