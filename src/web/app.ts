@@ -29,7 +29,7 @@ export function createApp(): Hono {
   app.use("*", cors());
 
   // Health check
-  app.get("/api/health", (c) => c.json({ status: "ok", version: "4.0.0" }));
+  app.get("/api/health", (c) => c.json({ status: "ok", version: "4.0.1" }));
 
   // List all skills
   app.get("/api/skills", async (c) => {

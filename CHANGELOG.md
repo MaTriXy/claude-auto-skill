@@ -311,7 +311,8 @@ The first version of Auto-Skill, providing automatic workflow learning from Clau
 
 | Version | Release Date | Key Features | Status |
 |---------|--------------|--------------|--------|
-| **4.0.0** | 2025-01-30 | Complete Node.js/TypeScript migration | ✅ Current |
+| **4.0.1** | 2025-01-30 | Clean release (no lifecycle scripts) | ✅ Current |
+| **4.0.0** | 2025-01-30 | Complete Node.js/TypeScript migration | ⚠️ Deprecated |
 | **3.0.2** | 2025-01-29 | Fix pip install, CLI entry point | ✅ Previous |
 | **2.0.0** | 2025-01-26 | Session analysis, LSP, design patterns | ✅ Stable |
 | **1.0.0** | 2024-XX-XX | Auto-detection, skill generation | ✅ Stable |

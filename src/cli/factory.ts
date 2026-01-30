@@ -6,7 +6,7 @@
  */
 import { Command } from "commander";
 
-const VERSION = "4.0.0";
+const VERSION = "4.0.1";
 
 /**
  * Create and configure the auto-skill CLI program.

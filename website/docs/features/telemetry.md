@@ -25,7 +25,7 @@ Anonymous, aggregate metrics only:
 | Outcome | `success` / `failure` | Reliability |
 | Agent name | `claude-code` | Compatibility |
 | System info | `darwin`, `node 22` | Compatibility |
-| Tool version | `4.0.0` | Adoption |
+| Tool version | `4.0.1` | Adoption |
 
 ## What We Do NOT Collect
 

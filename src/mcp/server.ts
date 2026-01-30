@@ -132,7 +132,7 @@ function handleRequest(req: McpRequest): McpResponse {
         result: {
           protocolVersion: "2024-11-05",
           capabilities: { tools: {} },
-          serverInfo: { name: "auto-skill", version: "4.0.0" },
+          serverInfo: { name: "auto-skill", version: "4.0.1" },
         },
       };
 
