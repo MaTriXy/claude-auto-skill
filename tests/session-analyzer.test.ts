@@ -40,6 +40,7 @@ describe("SessionAnalyzer", () => {
       makeEvent("Edit", 102, true),
     ];
     const ctx = analyzer.analyzeSession("sess-1", events);
-    expect(ctx.successIndicators.toolSuccessRate).toBeCloseTo(2 / 3, 1);
+    const indicators = ctx.successIndicators as Record<string, number>;
+    expect(indicators.tool_success_rate).toBeCloseTo(2 / 3, 1);
   });
 });

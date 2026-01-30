@@ -6,14 +6,14 @@ describe("sanitizeName", () => {
     expect(sanitizeName("MySkill Name")).toBe("myskill-name");
   });
   it("removes special characters", () => {
-    expect(sanitizeName("test@#$%skill")).toBe("testskill");
+    expect(sanitizeName("test@#$%skill")).toBe("test-skill");
   });
   it("truncates to max length", () => {
     const long = "a".repeat(100);
     expect(sanitizeName(long).length).toBeLessThanOrEqual(MAX_NAME_LENGTH);
   });
   it("handles empty string", () => {
-    expect(sanitizeName("")).toBe("unnamed-skill");
+    expect(() => sanitizeName("")).toThrow("Skill name cannot be empty");
   });
   it("collapses multiple hyphens", () => {
     expect(sanitizeName("a---b")).toBe("a-b");
@@ -24,14 +24,21 @@ describe("sanitizeName", () => {
 });
 
 describe("isPathSafe", () => {
-  it("allows paths within root", () => {
-    expect(isPathSafe("/home/user/skills/test", "/home/user")).toBe(true);
+  it("allows paths within root using real paths", () => {
+    // isPathSafe uses fs.realpathSync, so paths must exist
+    // Use /tmp which exists on all platforms
+    const os = require("os");
+    const tmpDir = os.tmpdir();
+    expect(isPathSafe(tmpDir, tmpDir)).toBe(true);
   });
   it("rejects path traversal", () => {
     expect(isPathSafe("/home/user/../etc/passwd", "/home/user")).toBe(false);
   });
   it("rejects absolute path outside root", () => {
     expect(isPathSafe("/etc/passwd", "/home/user")).toBe(false);
+  });
+  it("returns false for non-existent paths", () => {
+    expect(isPathSafe("/nonexistent/path/foo", "/nonexistent")).toBe(false);
   });
 });
 

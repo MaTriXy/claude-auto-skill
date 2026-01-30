@@ -8,7 +8,7 @@ describe("DesignPatternDetector", () => {
     const toolSequence = ["Write", "Bash", "Edit", "Bash"];
     const result = detector.detectWorkflowPattern(toolSequence);
     expect(result).not.toBeNull();
-    expect(result!.name).toContain("TDD");
+    expect(result!.patternName).toContain("TDD");
   });
 
   it("detects Debug-Systematic pattern", () => {
