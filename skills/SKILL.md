@@ -5,22 +5,22 @@ description: Documentation for the Auto-Skill plugin - automatic workflow patter
 
 # Auto-Skill Plugin
 
-This plugin automatically detects workflow patterns from your Claude Code sessions, generates reusable skills, and can load them dynamically mid-session.
+This plugin automatically detects workflow patterns from your coding agent sessions, generates reusable skills, and can load them dynamically mid-session.
 
-## ⚙️ CLI Tool Installation
+## CLI Tool Installation
 
-The agent skills are now installed, but to use CLI commands like `auto-skill init`, `auto-skill discover`, etc., you need to install the Python package.
+The agent skills are now installed, but to use CLI commands like `auto-skill init`, `auto-skill discover`, etc., you need to install the npm package.
 
 **Quick Install:**
 ```bash
 # Option 1: Run the included install script
 bash ~/.agents/skills/auto-skill-guide/install-cli.sh
 
-# Option 2: Install from PyPI with uv (recommended)
-uv pip install aiskill
+# Option 2: Install globally via npm
+npm install -g auto-skill
 
-# Option 3: Install from PyPI with pip
-pip install aiskill
+# Option 3: Use without installing (via npx)
+npx auto-skill init
 ```
 
 **Verify:** `auto-skill version`
@@ -130,14 +130,15 @@ Claude can automatically discover relevant skills using the `skill-discovery` sk
 3. If found, Claude asks: "Would you like me to load this skill?"
 4. User approves → skill is loaded and followed
 
-### Scripts
+### CLI Commands
 
 ```bash
-python scripts/list_skills.py           # List all skills
-python scripts/search_skills.py "query" # Find by intent
-python scripts/get_skill.py <name>      # Load specific skill
-python scripts/discover_skill.py "task" # Discover + offer to load
-python scripts/skill_registry.py --rebuild  # Refresh registry
+auto-skill discover             # Discover skill patterns
+auto-skill search "query"       # Search skills (FTS5)
+auto-skill stats                # Show adoption statistics
+auto-skill graduate             # Manage skill graduation
+auto-skill agents list          # List known agents
+auto-skill agents detect        # Detect installed agents
 ```
 
 ## Execution Contexts
@@ -202,13 +203,13 @@ detection:
 |------|----------|
 | Events | `~/.claude/auto-skill/events.db` |
 | Skills | `~/.claude/skills/auto/` |
-| Registry | `references/registry.json` |
+| Tracking | `~/.claude/auto-skill/skills_tracking.db` |
 
 ## Privacy
 
 - All data is stored locally
 - No data is sent to external services
-- Events can be cleaned up with `cleanup_old_events(days=30)`
+- Anonymous telemetry can be disabled via `AUTO_SKILL_NO_TELEMETRY=1` or `DO_NOT_TRACK=1`
 
 ## Troubleshooting
 
@@ -218,13 +219,13 @@ detection:
 - Run `/auto-skill:status` to see event counts
 
 **Skill not loading?**
-- Run `python scripts/skill_registry.py --rebuild`
+- Run `auto-skill discover` to refresh
 - Check the skill exists in `~/.claude/skills/auto/`
 
 **Hooks not working?**
 - Verify plugin is installed correctly
 - Check `hooks/hooks.json` configuration
-- Ensure Python 3 is available
+- Ensure Node.js 18+ is available
 
 **Want to reset?**
 - Delete `~/.claude/auto-skill/events.db`
