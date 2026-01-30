@@ -14,7 +14,7 @@
     "build": "tsc",
     "test": "vitest run",
     "test:watch": "vitest",
-    "lint": "eslint src/ tests/ --ext .ts",
+    "lint": "eslint src/ tests/",
     "clean": "rm -rf dist",
     "prepublishOnly": "npm run build",
     "start:web": "node dist/web/server.js",
