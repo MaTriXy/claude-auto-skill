@@ -8,7 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ---
 
 
-## [4.0.0] - 2025-01-30
+## [4.0.1] - 2025-01-30
+
+### Fixed
+- Removed `prebuild` lifecycle script (`rm -rf dist/*.whl ...`) that triggered npm security scanners
+- Cleaned all Python artifacts from package
+
+## [4.0.0] - 2025-01-30 [DEPRECATED]
 
 ### Major Release: Complete Node.js/TypeScript Migration
 
