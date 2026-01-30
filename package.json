@@ -1,5 +1,8 @@
 {
-  "name": "auto-skill",
+  "name": "@matrixy/auto-skill",
+  "publishConfig": {
+    "access": "public"
+  },
   "version": "4.0.0",
   "description": "Automatically learn from your workflows and turn them into intelligent, context-aware skills",
   "main": "dist/index.js",
@@ -8,6 +11,7 @@
     "auto-skill": "bin/auto-skill.js"
   },
   "scripts": {
+    "prebuild": "rm -rf dist/*.whl dist/*.tar.gz dist/*.egg-info",
     "build": "tsc",
     "test": "vitest run",
     "test:watch": "vitest",

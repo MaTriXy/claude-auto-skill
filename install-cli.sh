@@ -54,7 +54,7 @@ if [[ $INSTALL =~ ^[Yy]$ ]]; then
         exit 1
     fi
 
-    npm install -g auto-skill
+    npm install -g @matrixy/auto-skill
     echo ""
     echo "Installed! Run: auto-skill init"
 else
@@ -62,7 +62,7 @@ else
     echo "Skipped CLI installation."
     echo ""
     echo "To install later, run:"
-    echo "  npm install -g auto-skill"
+    echo "  npm install -g @matrixy/auto-skill"
     echo ""
     echo "Or use without installing:"
     echo "  npx auto-skill init"

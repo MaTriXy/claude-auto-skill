@@ -17,10 +17,10 @@ The agent skills are now installed, but to use CLI commands like `auto-skill ini
 bash ~/.agents/skills/auto-skill-guide/install-cli.sh
 
 # Option 2: Install globally via npm
-npm install -g auto-skill
+npm install -g @matrixy/auto-skill
 
 # Option 3: Use without installing (via npx)
-npx auto-skill init
+npx @matrixy/auto-skill init
 ```
 
 **Verify:** `auto-skill version`
