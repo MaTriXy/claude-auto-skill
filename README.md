@@ -8,7 +8,7 @@
 
 Auto-Skill observes your coding sessions across 10 supported agents, detects repeated patterns, and generates reusable SKILL.md files. Skills are automatically shared across all your installed agents. It combines local pattern detection with external skill discovery, cross-agent sharing, and anonymous telemetry.
 
-[![PyPI](https://img.shields.io/pypi/v/aiskill)](https://pypi.org/project/aiskill/)
+[![npm](https://img.shields.io/npm/v/@matrixy/auto-skill)](https://www.npmjs.com/package/@matrixy/auto-skill)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Docs](https://img.shields.io/badge/docs-Docusaurus-blue.svg)](https://MaTriXy.github.io/auto-skill)
 
@@ -21,11 +21,7 @@ npx skills add MaTriXy/auto-skill
 ### Install CLI
 
 ```bash
-# With pip
-pip install aiskill
-
-# With uv
-uv pip install aiskill
+npm install -g @matrixy/auto-skill
 ```
 
 Once installed, the plugin automatically:
@@ -77,8 +73,8 @@ All commands support `--json` output.
 ```bash
 git clone https://github.com/MaTriXy/auto-skill.git
 cd auto-skill
-uv sync --all-extras
-uv run pytest tests/ -v
+npm install
+npm test
 ```
 
 ## Telemetry
@@ -90,7 +86,7 @@ This tool collects **anonymous, aggregate metrics** (event types, counts, timing
 export AUTO_SKILL_NO_TELEMETRY=1  # or DO_NOT_TRACK=1
 ```
 
-Automatically disabled in CI. Source: [`core/telemetry.py`](core/telemetry.py)
+Automatically disabled in CI. Source: [`src/core/telemetry.ts`](src/core/telemetry.ts)
 
 ## License
 
@@ -98,4 +94,4 @@ MIT License - see [LICENSE](LICENSE)
 
 ---
 
-**Version 3.0.2** | [Repository](https://github.com/MaTriXy/auto-skill) | [Issues](https://github.com/MaTriXy/auto-skill/issues) | [Changelog](CHANGELOG.md)
+**Version 4.0.1** | [Repository](https://github.com/MaTriXy/auto-skill) | [Issues](https://github.com/MaTriXy/auto-skill/issues) | [Changelog](CHANGELOG.md)

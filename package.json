@@ -1,10 +1,32 @@
 {
-  "name": "auto-skill",
-  "version": "3.0.2",
-  "description": "Automatically learn from your workflows and turn them into intelligent, context-aware skills",
-  "scripts": {
-    "postinstall": "bash install-cli.sh || true"
+  "name": "@matrixy/auto-skill",
+  "publishConfig": {
+    "access": "public"
   },
+  "version": "4.0.1",
+  "description": "Automatically learn from your workflows and turn them into intelligent, context-aware skills",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "auto-skill": "bin/auto-skill.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src/ tests/",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run build",
+    "start:web": "node dist/web/server.js",
+    "start:mcp": "node dist/mcp/server.js"
+  },
+  "files": [
+    "dist",
+    "bin",
+    "src/hooks/hooks.json",
+    "README.md",
+    "LICENSE"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/MaTriXy/auto-skill.git"
@@ -14,12 +36,40 @@
     "agent",
     "skills",
     "automation",
-    "workflow"
+    "workflow",
+    "claude",
+    "cursor",
+    "codex",
+    "aider",
+    "windsurf",
+    "mcp"
   ],
   "author": "MaTriXy",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/MaTriXy/auto-skill/issues"
   },
-  "homepage": "https://MaTriXy.github.io/auto-skill"
+  "homepage": "https://MaTriXy.github.io/auto-skill",
+  "dependencies": {
+    "better-sqlite3": "^11.0.0",
+    "commander": "^12.0.0",
+    "hono": "^4.0.0",
+    "@hono/node-server": "^1.0.0",
+    "yaml": "^2.4.0"
+  },
+  "optionalDependencies": {
+    "sqlite-vec": "^0.1.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.0",
+    "@types/node": "^22.0.0",
+    "eslint": "^9.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
 }

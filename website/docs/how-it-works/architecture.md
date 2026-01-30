@@ -14,14 +14,14 @@ Auto-Skill follows a three-stage pipeline: **Observe → Detect → Forge**, wit
                        │ PostToolUse hook
                        ▼
 ┌──────────────────────────────────────────────────────┐
-│  OBSERVER (hooks/observer.py)                        │
+│  OBSERVER (src/hooks/observer.ts)                    │
 │  Records tool events to SQLite                       │
 │  Fields: tool_name, input, response, success, time   │
 └──────────────────────┬───────────────────────────────┘
                        │ Stop hook
                        ▼
 ┌──────────────────────────────────────────────────────┐
-│  DETECTOR (core/pattern_detector.py)                 │
+│  DETECTOR (src/core/pattern-detector.ts)             │
 │                                                      │
 │  ┌─────────────┐ ┌──────────────┐ ┌──────────────┐  │
 │  │ Sequence    │ │ Session      │ │ Design       │  │
@@ -36,7 +36,7 @@ Auto-Skill follows a three-stage pipeline: **Observe → Detect → Forge**, wit
                        │ patterns with confidence ≥ 0.7
                        ▼
 ┌──────────────────────────────────────────────────────┐
-│  FORGE (core/skill_generator.py)                     │
+│  FORGE (src/core/skill-generator.ts)                 │
 │  Generates SKILL.md with YAML frontmatter            │
 │  Output: ~/.claude/skills/auto/                      │
 └──────────────────────────────────────────────────────┘
@@ -46,14 +46,14 @@ Auto-Skill follows a three-stage pipeline: **Observe → Detect → Forge**, wit
 
 | Module | File | Purpose |
 |--------|------|---------|
-| **EventStore** | `core/event_store.py` | SQLite persistence for tool events |
-| **PatternDetector** | `core/pattern_detector.py` | Core pattern matching + V2 orchestration |
-| **SequenceMatcher** | `core/sequence_matcher.py` | Sliding-window subsequence extraction |
-| **SkillGenerator** | `core/skill_generator.py` | SKILL.md file generation |
-| **SessionAnalyzer** | `core/session_analyzer.py` | Conversation intent and context |
-| **LSPAnalyzer** | `core/lsp_analyzer.py` | Code structure via AST/tree-sitter |
-| **DesignPatternDetector** | `core/design_pattern_detector.py` | 18 pattern recognizers |
-| **Config** | `core/config.py` | Configuration management |
+| **EventStore** | `src/core/event-store.ts` | SQLite persistence for tool events |
+| **PatternDetector** | `src/core/pattern-detector.ts` | Core pattern matching + V2 orchestration |
+| **SequenceMatcher** | `src/core/sequence-matcher.ts` | Sliding-window subsequence extraction |
+| **SkillGenerator** | `src/core/skill-generator.ts` | SKILL.md file generation |
+| **SessionAnalyzer** | `src/core/session-analyzer.ts` | Conversation intent and context |
+| **LSPAnalyzer** | `src/core/lsp-analyzer.ts` | Code structure via AST/tree-sitter |
+| **DesignPatternDetector** | `src/core/design-pattern-detector.ts` | 18 pattern recognizers |
+| **Config** | `src/core/config.ts` | Configuration management |
 
 ## Hybrid Layer (Optional)
 
@@ -61,7 +61,7 @@ When enabled, the pipeline extends with external sources:
 
 ```
 ┌──────────────────────────────────────────────────────┐
-│  UNIFIED SUGGESTER (core/unified_suggester.py)       │
+│  UNIFIED SUGGESTER (src/core/unified-suggester.ts)   │
 │                                                      │
 │  Sources:                                            │
 │  ┌──────────┐ ┌──────────┐ ┌──────────────────────┐ │
@@ -76,7 +76,7 @@ When enabled, the pipeline extends with external sources:
                        ▼
 ┌──────────────────────────────────────────────────────┐
 │  ADOPTION & GRADUATION                               │
-│  core/skill_tracker.py + core/graduation_manager.py  │
+│  src/core/skill-tracker.ts + src/core/graduation-manager.ts │
 │                                                      │
 │  External skill (50%) → Proven (75%) → Local (85%+)  │
 │  Criteria: 5+ uses, 80% success rate                 │
@@ -99,10 +99,10 @@ All data is local. Anonymous telemetry is opt-in with privacy-first defaults (se
 
 | Component | Technology |
 |-----------|-----------|
-| Language | Python 3.9+ |
-| Storage | SQLite (built-in) |
-| Code parsing | AST (Python), tree-sitter (JS/TS) |
+| Language | TypeScript (Node.js 18+) |
+| Storage | SQLite (better-sqlite3) |
+| Code parsing | TypeScript AST |
 | Config format | YAML |
 | Skill format | Markdown + YAML frontmatter |
-| Web UI | Flask |
-| ML (optional) | scikit-learn, numpy |
+| Web UI | Hono |
+| CLI | Commander |

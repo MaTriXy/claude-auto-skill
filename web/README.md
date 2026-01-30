@@ -4,37 +4,10 @@ Beautiful visual interface for managing skills, tracking adoption, and publishin
 
 ## Quick Start
 
-### Easiest Way (Recommended)
-
-From the project root:
-
 ```bash
-./start-web.sh        # macOS/Linux
-start-web.bat         # Windows
+npm run start:web
+# Open http://localhost:8000
 ```
-
-### Manual Start
-
-```bash
-# From web directory
-cd web
-
-# Install dependencies
-uv sync                # With uv (recommended)
-# or
-pip install -r requirements.txt
-
-# Run server
-uv run python app.py   # With uv
-# or
-python app.py          # With pip
-```
-
-## Access
-
-Open your browser to:
-- **http://localhost:8000** (default)
-- Dashboard, Graduation, and Publishing tabs available
 
 ## Features
 
@@ -44,23 +17,16 @@ Open your browser to:
 
 ## Custom Port
 
-If port 8000 is in use:
+Set the `PORT` environment variable:
 
 ```bash
-./start-web.sh 3000
-```
-
-Or set in `app.py`:
-
-```python
-app.run(debug=True, host='0.0.0.0', port=3000)
+PORT=3000 npm run start:web
 ```
 
 ## Requirements
 
-- Python 3.11+ (for modern type syntax)
-- Flask 3.0+
-- Auto-Skill core modules
+- Node.js 18+
+- Auto-Skill core modules (installed via `npm install`)
 
 ## Documentation
 

@@ -13,13 +13,10 @@ When invoked, gather and display system diagnostics:
 
 1. **Event Store Statistics**
 
-   ```python
-   import sys
-   sys.path.insert(0, "$CLAUDE_PROJECT_ROOT")
-   from core.event_store import EventStore
-
-   store = EventStore()
-   stats = store.get_stats()
+   ```typescript
+   import { createEventStore } from "../src/core/db";
+   const store = createEventStore();
+   const stats = store.getStats();
    ```
 
    Display:
@@ -30,11 +27,10 @@ When invoked, gather and display system diagnostics:
 
 2. **Pattern Detection Status**
 
-   ```python
-   from core.pattern_detector import PatternDetector
-
-   detector = PatternDetector(store)
-   patterns = detector.detect_patterns()
+   ```typescript
+   import { createPatternDetector } from "../src/core/patternDetector";
+   const detector = createPatternDetector(store);
+   const patterns = detector.detectPatterns();
    ```
 
    Display:
@@ -44,11 +40,10 @@ When invoked, gather and display system diagnostics:
 
 3. **Generated Skills**
 
-   ```python
-   from core.skill_generator import SkillGenerator
-
-   generator = SkillGenerator()
-   skills = generator.list_generated_skills()
+   ```typescript
+   import { createSkillGenerator } from "../src/core/skillGenerator";
+   const generator = createSkillGenerator();
+   const skills = generator.listGeneratedSkills();
    ```
 
    Display:

@@ -12,14 +12,14 @@ Use your coding agent as you always do. The observer hook silently records tool 
 
 Every tool call generates an event like:
 
-```python
-ToolEvent(
-    tool_name="Read",
-    tool_input={"file_path": "src/auth.py"},
-    success=True,
-    session_id="abc123",
-    project_path="/my-project"
-)
+```typescript
+{
+  toolName: "Read",
+  toolInput: { file_path: "src/auth.ts" },
+  success: true,
+  sessionId: "abc123",
+  projectPath: "/my-project"
+}
 ```
 
 ## 2. Patterns Emerge
@@ -38,7 +38,7 @@ After a few sessions, the detector looks for repeated tool sequences. For exampl
 Discover detected patterns:
 
 ```bash
-python -m commands.discover
+auto-skill discover
 ```
 
 Output:
@@ -63,7 +63,7 @@ Patterns above the confidence threshold (default: 0.7) can be turned into SKILL.
 Search Skills.sh for existing skills that match your workflow:
 
 ```bash
-python -m commands.discover --search "testing workflow"
+auto-skill search "testing workflow"
 ```
 
 External skills start at 50% confidence and graduate to local skills after proving themselves (5+ uses, 80% success rate).
@@ -73,8 +73,8 @@ External skills start at 50% confidence and graduate to local skills after provi
 Launch the web UI to visualize patterns and manage skills:
 
 ```bash
-cd web
-python app.py
+auto-skill start:web
+# or: npm run start:web
 # Open http://localhost:8000
 ```
 
